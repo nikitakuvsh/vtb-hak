@@ -1,0 +1,22 @@
+header {
+    margin-bottom: 30px;
+}
+
+.header__content {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    align-items: center;
+}
+
+.header-logo {
+    margin-right: 15px;
+}
+
+.header-lk {
+    padding: auto;
+    width: 247px;
+    height: 65px;
+    font-size: 24px;
+}
+
