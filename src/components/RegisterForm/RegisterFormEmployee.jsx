@@ -1,16 +1,19 @@
 import React, { useEffect, useRef } from "react";
+import AddressInput from './AddressInput';
 import userIcon from '../../img/user.png';
 import './RegisterFormEmployee.css';
 
 function RegisterFormEmployee() {
     const inputRefs = useRef([]);
-    
+
     useEffect(() => {
         inputRefs.current.forEach(input => {
-            const label = input.previousElementSibling;
-            const labelWidth = label.offsetWidth;
-            const padding = 20;
-            input.style.paddingLeft = `${labelWidth + padding}px`;
+            const label = input?.previousElementSibling;
+            if (label) {
+                const labelWidth = label.offsetWidth;
+                const padding = 20;
+                input.style.paddingLeft = `${labelWidth + padding}px`;
+            }
         });
     }, []);
 
@@ -68,20 +71,9 @@ function RegisterFormEmployee() {
                             id="password"
                             ref={el => inputRefs.current[3] = el}
                         />
-                        
                     </div>
 
-                    <div className="input-container">
-                        <label htmlFor="address" className="floating-label">Адрес компании</label>
-                        <input
-                            type="password"
-                            className="form__input"
-                            name="company-address-input"
-                            required
-                            id="address"
-                            ref={el => inputRefs.current[4] = el}
-                        />
-                    </div>
+                    <AddressInput ref={el => inputRefs.current[4] = el} />
 
                     <button className="submit-button auth__button" type="submit">
                         Зарегистрироваться
