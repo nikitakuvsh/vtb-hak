@@ -21,7 +21,7 @@ a {
   color: var(--linkColor);
 }
 
-h1, h2, h3, h4, h5, .button-black {
+h1, h2, h3, h4, h5, .button-black, ul, li {
   font-family: var(--titleFont);
 }
 
