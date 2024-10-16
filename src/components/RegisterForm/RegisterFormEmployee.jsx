@@ -1,28 +1,65 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import AddressInput from './AddressInput';
 import userIcon from '../../img/user.png';
 import './RegisterFormEmployee.css';
 
 function RegisterFormEmployee() {
     const inputRefs = useRef([]);
+    const [profileImage, setProfileImage] = useState(userIcon);
+    const fileInputRef = useRef(null);
 
     useEffect(() => {
-        inputRefs.current.forEach(input => {
-            const label = input?.previousElementSibling;
-            if (label) {
-                const labelWidth = label.offsetWidth;
-                const padding = 20;
-                input.style.paddingLeft = `${labelWidth + padding}px`;
-            }
-        });
+        const updatePadding = () => {
+            inputRefs.current.forEach(input => {
+                const label = input?.previousElementSibling;
+                if (label) {
+                    const labelWidth = label.offsetWidth;
+                    const padding = 20;
+                    input.style.paddingLeft = `${labelWidth + padding}px`;
+                }
+            });
+        };
+
+        const timeout = setTimeout(updatePadding, 100);
+
+        window.addEventListener('resize', updatePadding);
+
+        return () => {
+            clearTimeout(timeout);
+            window.removeEventListener('resize', updatePadding);
+        };
     }, []);
+
+    const handleImageUpload = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => setProfileImage(e.target.result);
+            reader.readAsDataURL(file);
+        }
+    };
 
     return (
         <div className="registration-container">
             <div className="registration__role">
-                <img className="choice__icon employee__icon" src={userIcon} alt="Иконка пользователя" />
+                <img className="choice__icon employee__icon registration__icon--fix" src={profileImage} alt="Иконка пользователя" />
                 <h2 className="choice__title">Работодатель</h2>
+                <button 
+                    className="choice__change-image" 
+                    type="button" 
+                    onClick={() => fileInputRef.current.click()}
+                >
+                    Выбрать свою фотографию
+                </button>
+                <input
+                    type="file"
+                    ref={fileInputRef}
+                    style={{ display: 'none' }}
+                    onChange={handleImageUpload}
+                    accept="image/*"
+                />
             </div>
+
             <div className="registration__form form__employee">
                 <form action="#" method="post">
                     <div className="input-container">

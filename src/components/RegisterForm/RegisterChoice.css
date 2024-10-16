@@ -30,10 +30,7 @@
     transition: filter 0.3s ease-in-out;
 }
 
-.choice__employee .choice__icon:hover, .choice__employee .choice__title:hover {
-    filter: drop-shadow(0 0 8px rgba(251, 255, 0, 0.767));
-}
-
+.choice__employee .choice__icon:hover, .choice__employee .choice__title:hover,
 .choice__worker .choice__icon:hover, .choice__worker .choice__title:hover {
     filter: drop-shadow(0 0 8px rgba(0, 255, 221, 0.979));
 }

@@ -62,7 +62,6 @@ a, span, p, input, label, button {
   margin-bottom: 60px;
 }
 
-
 @font-face {
   font-family: 'Inter';
   src: url('./fonts/Inter-Regular.otf') format('opentype');
@@ -75,4 +74,10 @@ a, span, p, input, label, button {
   src: url('./fonts/Montserrat-Regular.ttf') format('truetype');
   font-size: normal;
   font-weight: normal;
+}
+
+@media (min-width: 1920px) {
+  .form__input {
+    min-height: 100px;
+  }
 }
