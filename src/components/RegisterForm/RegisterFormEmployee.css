@@ -115,9 +115,10 @@
 
 .modal-content {
     background: white;
-    padding: 40px;
+    padding: calc((40px + (60 - 40) * ((100vw - 1366px) / (1920 - 1366))) + 6px);
     border-radius: 8px;
-    max-width: 400px;
+    max-width: max-content;
+    max-height: max-content;
     width: 100%;
     text-align: center;
     position: relative;
@@ -126,8 +127,8 @@
 
 .close-button {
     position: absolute;
-    bottom: 1px;
-    right: 3px;
+    bottom: 2%;
+    right: 2%;
     cursor: pointer;
     color: black;
 }

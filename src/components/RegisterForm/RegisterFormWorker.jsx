@@ -112,7 +112,7 @@ function RegisterFormEmployee() {
             <div className="registration__form form__employee">
                 <form onSubmit={handleSubmit}>
                     <div className="input-container">
-                        <label htmlFor="name-of-user" className="floating-label">Имя</label>
+                        <label htmlFor="name-of-user" className="floating-label">ФИО</label>
                         <input
                             type="text"
                             className="form__input"
@@ -124,7 +124,7 @@ function RegisterFormEmployee() {
                     </div>
 
                     <div className="input-container">
-                        <label htmlFor="birthday" className="floating-label">Ваша дата рождения</label>
+                        <label htmlFor="birthday" className="floating-label">Дата рождения</label>
                         <input
                             type="date"
                             className="form__input"
@@ -136,7 +136,7 @@ function RegisterFormEmployee() {
                     </div>
                     
                     <div className="input-container">
-                        <label htmlFor="email" className="floating-label">Ваш email</label>
+                        <label htmlFor="email" className="floating-label">Email</label>
                         <input
                             type="email"
                             className="form__input"

@@ -75,7 +75,7 @@ function RegisterFormEmployee() {
                     </div>
 
                     <div className="input-container">
-                        <label htmlFor="email" className="floating-label">Ваш email</label>
+                        <label htmlFor="email" className="floating-label">Email</label>
                         <input
                             type="email"
                             className="form__input"
