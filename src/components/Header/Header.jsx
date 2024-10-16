@@ -8,11 +8,11 @@ function Header() {
         <a href="#"><img className="header-logo" src="" alt="Логотип команды" /></a>
         <a href="#"><img className="header-logo" src="" alt="Логотип компании" /></a>
         </div>
-        <div className="content__nav">
+        {/* <div className="content__nav">
         <button className="button-black header-lk" type="button">
             Личный <br /> кабинет
         </button>
-        </div>
+        </div> */}
     </div>
   );
 }

@@ -38,7 +38,7 @@
 .choice__title {
     margin: 0;
     color: #FFF;
-    font-size: 28px;
+    font-size: calc(28px + (32 - 28)*((100vw - 1366px) /(1920 - 1366)));
     font-weight: 600;
     text-align: center;
 }
