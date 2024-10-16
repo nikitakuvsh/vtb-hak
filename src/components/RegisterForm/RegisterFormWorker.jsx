@@ -6,6 +6,8 @@ function RegisterFormEmployee() {
     const inputRefs = useRef([]);
     const [profileImage, setProfileImage] = useState(userIcon);
     const fileInputRef = useRef(null);
+    const [ageError, setAgeError] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const updatePadding = () => {
@@ -38,6 +40,54 @@ function RegisterFormEmployee() {
         }
     };
 
+    const validateAge = (birthDate) => {
+        const today = new Date();
+        const futureDate = birthDate > today;
+
+        if (futureDate) {
+            return "Введите правильную дату.";
+        }
+
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        if (age < 18) {
+            return "Возраст должен быть не меньше 18 лет.";
+        } else if (age > 100) {
+            return "Введите реальный возраст.";
+        }
+        return "";
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const birthDateValue = inputRefs.current[1].value;
+        if (birthDateValue) {
+            const birthDate = new Date(birthDateValue);
+            const ageValidationMessage = validateAge(birthDate);
+            if (ageValidationMessage) {
+                setAgeError(ageValidationMessage);
+                setIsModalOpen(true);
+                return;
+            }
+        }
+        setAgeError('');
+        // Логика отправки формы
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleModalClick = (event) => {
+        if (event.target.classList.contains('modal')) {
+            closeModal();
+        }
+    };
+
     return (
         <div className="registration-container">
             <div className="registration__role">
@@ -60,9 +110,9 @@ function RegisterFormEmployee() {
             </div>
 
             <div className="registration__form form__employee">
-                <form action="#" method="post">
+                <form onSubmit={handleSubmit}>
                     <div className="input-container">
-                        <label htmlFor="name-of-user" className="floating-label">Имя</label>
+                        <label htmlFor="name-of-user" className="floating-label">ФИО</label>
                         <input
                             type="text"
                             className="form__input"
@@ -74,14 +124,26 @@ function RegisterFormEmployee() {
                     </div>
 
                     <div className="input-container">
-                        <label htmlFor="email" className="floating-label">Ваш email</label>
+                        <label htmlFor="birthday" className="floating-label">Дата рождения</label>
+                        <input
+                            type="date"
+                            className="form__input"
+                            name="birthday"
+                            required
+                            id="birthday"
+                            ref={el => inputRefs.current[1] = el}
+                        />
+                    </div>
+                    
+                    <div className="input-container">
+                        <label htmlFor="email" className="floating-label">Email</label>
                         <input
                             type="email"
                             className="form__input"
                             name="email-input"
                             required
                             id="email"
-                            ref={el => inputRefs.current[1] = el}
+                            ref={el => inputRefs.current[2] = el}
                         />
                     </div>
 
@@ -93,7 +155,7 @@ function RegisterFormEmployee() {
                             name="phone-number-input"
                             required
                             id="phone"
-                            ref={el => inputRefs.current[2] = el}
+                            ref={el => inputRefs.current[3] = el}
                         />
                     </div>
 
@@ -105,7 +167,7 @@ function RegisterFormEmployee() {
                             name="password"
                             required
                             id="password"
-                            ref={el => inputRefs.current[3] = el}
+                            ref={el => inputRefs.current[4] = el}
                         />
                     </div>
 
@@ -114,6 +176,15 @@ function RegisterFormEmployee() {
                     </button>
                 </form>
             </div>
+
+            {isModalOpen && (
+                <div className="modal" onClick={handleModalClick}>
+                    <div className="modal-content">
+                        <span className="close-button" onClick={closeModal}>ОК</span>
+                        <p>{ageError}</p>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
