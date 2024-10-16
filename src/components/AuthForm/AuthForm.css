@@ -9,7 +9,7 @@
     border-radius: 4px;
     max-height: 76px;
     border: 1px solid #FFF;
-    font-size: 24px;
+    font-size: calc((16px + (25 - 16) * ((100vw - 1366px) / (1920 - 1366))) + 6px);
     font-style: normal;
     font-weight: 300;
     line-height: 20px; /* 83.333% */
@@ -69,3 +69,51 @@
     text-decoration: underline;
     color: #007bff;
 }
+
+.auth__button {
+    position: relative;
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff;
+    background: #007bff;
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: color 0.4s ease, transform 0.4s ease;
+    z-index: 1;
+  }
+  
+  .auth__button::before, 
+  .auth__button::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: -103%;
+    background: linear-gradient(360deg, #3681be, #1e90ff);
+    transition: 1.2s;
+    z-index: -1;
+  }
+  
+  .auth__button::after {
+    filter: blur(10px);
+  }
+  
+  .auth__button:hover::before {
+    left: 0;
+  }
+  
+  .auth__button:hover {
+    color: #ffffff;
+    transform: scale(1.05);
+  }
+  
+  .auth__button:hover::after {
+    left: 0;
+    filter: blur(15px);
+  }
+  

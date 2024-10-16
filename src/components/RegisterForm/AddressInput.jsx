@@ -31,7 +31,7 @@ const AddressInput = React.forwardRef((props, ref) => {
                             "Content-Type": "application/json",
                             "Authorization": `Token ${token}`
                         },
-                        body: JSON.stringify({ query: value, count: 5 }),
+                        body: JSON.stringify({ query: value, count: 20 }),
                         signal: controller.signal
                     });
                     
