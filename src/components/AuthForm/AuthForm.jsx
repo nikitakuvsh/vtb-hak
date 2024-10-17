@@ -1,12 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './AuthForm.css';
 
 function AuthForm() {
+  const location = useLocation();
+  const isEmployeePath = location.pathname === '/auth-employee';
+  const registerPath = isEmployeePath ? '/register-employee' : '/register-worker';
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Логика отправки данных формы
+  };
+
   return (
     <div className="form__auth">
       <div className="auth__content">
-        <form action="#" method="post">
+        <form onSubmit={handleSubmit} action="#" method="post">
           <input
             type="email"
             className="form__input email-input"
@@ -21,6 +30,15 @@ function AuthForm() {
             placeholder="Ваш пароль"
             required
           />
+          {isEmployeePath && (
+            <input
+              type="text"
+              className="form__input inn-input"
+              name="inn-input"
+              placeholder="ИНН"
+              required
+            />
+          )}
           <button className="submit-button auth__button" type="submit">
             Войти
           </button>
@@ -29,7 +47,7 @@ function AuthForm() {
               Забыли пароль? <Link className="auth__link" to="/reset-password">Восстановить</Link>
             </span>
             <span className="auth__span">
-              Нет аккаунта? <Link className="auth__link" to="/register-choice">Создать</Link>
+              Нет аккаунта? <Link className="auth__link" to={registerPath}>Создать</Link>
             </span>
           </div>
         </form>

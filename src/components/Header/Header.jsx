@@ -15,6 +15,8 @@ function Header() {
     '/reset-password',
     '/register-employee',
     '/register-worker',
+    '/auth-worker',
+    '/auth-employee',
   ];
 
   const showImage = !hiddenImagePaths.includes(location.pathname);

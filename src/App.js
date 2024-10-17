@@ -33,6 +33,14 @@ const App = () => {
             <Routes location={location} key={location.pathname}>
               <Route 
                 path="/" 
+                element={<AnimatedZoomIn><RegisterChoice /></AnimatedZoomIn>} 
+              />
+              <Route 
+                path="/auth-worker" 
+                element={<AnimatedZoomIn><AuthForm /></AnimatedZoomIn>} 
+              />
+              <Route 
+                path="/auth-employee" 
                 element={<AnimatedZoomIn><AuthForm /></AnimatedZoomIn>} 
               />
               <Route 
@@ -76,10 +84,13 @@ const Title = () => {
   let title;
 
   switch (location.pathname) {
-    case '/':
+    case '/auth-employee':
       title = 'Авторизация';
       break;
-    case '/register-choice':
+    case '/auth-worker':
+      title = 'Авторизация';
+      break;
+    case '/':
       title = 'Выбор роли';
       break;
     case '/reset-password':
