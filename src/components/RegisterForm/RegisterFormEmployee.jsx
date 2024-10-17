@@ -98,18 +98,6 @@ function RegisterFormEmployee() {
             <div className="registration__form form__employee">
                 <form onSubmit={handleSubmit}>
                     <div className="input-container">
-                        <label htmlFor="inn-company" className="floating-label">ИНН</label>
-                        <input
-                            type="text"
-                            className="form__input"
-                            name="inn-company"
-                            required
-                            id="inn-company"
-                            ref={el => inputRefs.current[0] = el}
-                        />
-                    </div>
-
-                    <div className="input-container">
                         <label htmlFor="name-of-company" className="floating-label">Название компании</label>
                         <input
                             type="text"
@@ -117,7 +105,7 @@ function RegisterFormEmployee() {
                             name="name-of-company-input"
                             required
                             id="name-of-company"
-                            ref={el => inputRefs.current[1] = el}
+                            ref={el => inputRefs.current[0] = el}
                         />
                     </div>
 
@@ -129,7 +117,7 @@ function RegisterFormEmployee() {
                             name="email-input"
                             required
                             id="email"
-                            ref={el => inputRefs.current[2] = el}
+                            ref={el => inputRefs.current[1] = el}
                         />
                     </div>
 
@@ -141,7 +129,7 @@ function RegisterFormEmployee() {
                             name="phone-number-input"
                             required
                             id="phone"
-                            ref={el => inputRefs.current[3] = el}
+                            ref={el => inputRefs.current[2] = el}
                         />
                     </div>
 
@@ -153,11 +141,23 @@ function RegisterFormEmployee() {
                             name="password"
                             required
                             id="password"
-                            ref={el => inputRefs.current[4] = el}
+                            ref={el => inputRefs.current[3] = el}
                         />
                     </div>
 
-                    <AddressInput ref={el => inputRefs.current[5] = el} />
+                    <AddressInput ref={el => inputRefs.current[4] = el} />
+
+                    <div className="input-container">
+                        <label htmlFor="inn-company" className="floating-label">ИНН</label>
+                        <input
+                            type="text"
+                            className="form__input"
+                            name="inn-company"
+                            required
+                            id="inn-company"
+                            ref={el => inputRefs.current[5] = el}
+                        />
+                    </div>
 
                     <button className="submit-button auth__button" type="submit">
                         Зарегистрироваться
