@@ -7,6 +7,11 @@
   --mainTitleColor: #fff;
   --authButtonColorText: #2148C0;
   --authButtonBackground: #fff;
+  --linkColorInverted: #000; /* Инвертированный цвет */
+  --buttonTextColorInverted: #000; /* Инвертированный цвет */
+  --mainTitleColorInverted: #000; /* Инвертированный цвет */
+  --authButtonColorTextInverted: #fff; /* Инвертированный цвет */
+  --authButtonBackgroundInverted: #2148C0;
 }
 
 body {

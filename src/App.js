@@ -8,6 +8,9 @@ import RegisterChoice from './components/RegisterForm/RegisterChoice';
 import PasswordResetForm from './components/PasswordResetForm/PasswordResetForm';
 import RegisterFormEmployee from './components/RegisterForm/RegisterFormEmployee';
 import RegisterFormWorker from './components/RegisterForm/RegisterFormWorker';
+import ChoiceWorker from './components/Employee/ChoiceWorker';
+import ManageWorker from './components/Employee/ManageWorker';
+import Wallet from './components/wallet/Wallet';
 
 const App = () => {
   const location = useLocation();
@@ -48,6 +51,18 @@ const App = () => {
                 path="/register-worker" 
                 element={<AnimatedZoomIn><RegisterFormWorker /></AnimatedZoomIn>} 
               />
+              <Route 
+                path="/choice-worker"
+                element={<AnimatedZoomIn><ChoiceWorker /></AnimatedZoomIn>}
+              />
+              <Route 
+                path="/manage-worker"
+                element={<AnimatedZoomIn><ManageWorker /></AnimatedZoomIn>}
+              />
+              <Route 
+                path="/wallet"
+                element={<AnimatedZoomIn><Wallet /></AnimatedZoomIn>}
+              />
             </Routes>
           </AnimatePresence>
         </div>
@@ -75,6 +90,15 @@ const Title = () => {
       break;
     case '/register-worker':
       title = 'Регистрация сотрудника';
+      break;
+    case '/choice-worker':
+      title = 'Выбор сотрудников';
+      break;
+    case '/manage-worker':
+      title = 'Управление сотрудниками';
+      break;
+    case '/wallet':
+      title = 'Кошелёк';
       break;
     default:
       title = '';
