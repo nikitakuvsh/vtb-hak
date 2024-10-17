@@ -62,21 +62,47 @@ function RegisterFormEmployee() {
         return "";
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const birthDateValue = inputRefs.current[1].value;
-        if (birthDateValue) {
-            const birthDate = new Date(birthDateValue);
-            const ageValidationMessage = validateAge(birthDate);
-            if (ageValidationMessage) {
-                setAgeError(ageValidationMessage);
-                setIsModalOpen(true);
-                return;
-            }
-        }
-        setAgeError('');
-        // Логика отправки формы
-    };
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		const birthDateValue = inputRefs.current[1].value;
+		
+		if (birthDateValue) {
+			const birthDate = new Date(birthDateValue);
+			const ageValidationMessage = validateAge(birthDate);
+			if (ageValidationMessage) {
+				setAgeError(ageValidationMessage);
+				setIsModalOpen(true);
+				return;
+			}
+		}
+		setAgeError('');
+
+		const formData = {
+			name: inputRefs.current[0].value,
+			birthDate: birthDateValue,
+			email: inputRefs.current[2].value,
+			phone: inputRefs.current[3].value,
+			password: inputRefs.current[4].value,
+		};
+
+		try {
+			const response = await fetch('http://92.53.64.89:8092/register', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(formData),
+			});
+
+			if (response.ok) {
+				console.log('Форма успешно отправлена');
+			} else {
+				console.error('Ошибка при отправке формы');
+			}
+		} catch (error) {
+			console.error('Произошла ошибка:', error);
+		}
+	};
 
     const closeModal = () => {
         setIsModalOpen(false);
