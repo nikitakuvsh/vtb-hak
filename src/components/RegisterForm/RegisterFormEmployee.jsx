@@ -39,6 +39,11 @@ function RegisterFormEmployee() {
         }
     };
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        // Логика отправки формы
+    };
+
     return (
         <div className="registration-container">
             <div className="registration__role">
@@ -61,7 +66,7 @@ function RegisterFormEmployee() {
             </div>
 
             <div className="registration__form form__employee">
-                <form action="#" method="post">
+                <form onSubmit={handleSubmit}>
                     <div className="input-container">
                         <label htmlFor="name-of-company" className="floating-label">Название компании</label>
                         <input
