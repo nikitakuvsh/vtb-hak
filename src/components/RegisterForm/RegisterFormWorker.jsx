@@ -83,10 +83,12 @@ function RegisterFormEmployee() {
 			email: inputRefs.current[2].value,
 			phone: inputRefs.current[3].value,
 			password: inputRefs.current[4].value,
+			account_type: "Worker",
+			
 		};
 
 		try {
-			const response = await fetch('http://92.53.64.89:8092/register', {
+			const response = await fetch('http://92.53.64.89:8092/register_worker', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -95,13 +97,16 @@ function RegisterFormEmployee() {
 			});
 
 			if (response.ok) {
-				console.log('Форма успешно отправлена');
+				const response_json = await response.json();
+				console.log(response_json);
+				window.location.href = "/profile/" + response_json.user_id;
 			} else {
 				console.error('Ошибка при отправке формы');
 			}
 		} catch (error) {
 			console.error('Произошла ошибка:', error);
 		}
+
 	};
 
     const closeModal = () => {
