@@ -108,7 +108,7 @@ const Title = () => {
       title = 'Кошелёк';
       break;
     default:
-      title = '';
+      title = 'Извините, такой страницы не существует :(';
   }
 
   return <MainTitleSection title={title} />;

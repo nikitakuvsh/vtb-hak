@@ -3,6 +3,8 @@ import { useLocation } from 'react-router-dom';
 import './Header.css';
 import logoTeam from '../../img/logo/logo-team.png';
 import logoIconTeam from '../../img/logo/logo-team-icon.svg';
+import logoCompany from '../../img/logo/loco-company.png';
+import logoCompanyIcon from '../../img/logo/loco-company-icon.png';
 import profileIcon from '../../img/icons/header-default-user-icon.png';
 
 function Header() {
@@ -11,7 +13,6 @@ function Header() {
 
   const hiddenImagePaths = [
     '/',
-    '/register-choice',
     '/reset-password',
     '/register-employee',
     '/register-worker',
@@ -44,9 +45,9 @@ function Header() {
         <>
           <div className="header__logo">
             <a href="">
-              <img className="header__logo-image" src={isMobile ? logoIconTeam : logoTeam} alt="Логотип" />
+              <img className="header__logo-image" src={isMobile ? logoIconTeam : logoTeam} alt="Логотип команды" />
             </a>
-            <a href=""><img className="header__logo-image" src="" alt="Логотип компании" /></a>
+            <a href=""><img className="header__logo-image" src={isMobile ? logoCompanyIcon : logoCompany} alt="Логотип компании" /></a>
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">

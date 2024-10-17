@@ -59,3 +59,9 @@ header {
     transition: background-color 0.3s ease;
 }
 
+.header__logo-image {
+    max-width: 207px;
+    max-height: 72px;
+    object-fit: cover;
+    margin-right: 15px;
+}
