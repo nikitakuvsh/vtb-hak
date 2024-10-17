@@ -44,10 +44,6 @@ const App = () => {
                 element={<AnimatedZoomIn><AuthForm /></AnimatedZoomIn>} 
               />
               <Route 
-                path="/register-choice" 
-                element={<AnimatedZoomIn><RegisterChoice /></AnimatedZoomIn>} 
-              />
-              <Route 
                 path="/reset-password" 
                 element={<AnimatedZoomIn><PasswordResetForm /></AnimatedZoomIn>} 
               />
