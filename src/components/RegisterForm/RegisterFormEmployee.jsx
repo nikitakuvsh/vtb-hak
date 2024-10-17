@@ -41,7 +41,37 @@ function RegisterFormEmployee() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // Логика отправки формы
+        const formData = {
+			name: inputRefs.current[0].value,
+			// birthDate: birthDateValue,
+			email: inputRefs.current[1].value,
+			phone: inputRefs.current[2].value,
+			password: inputRefs.current[3].value,
+			address: inputRefs.current[4].value,
+			
+			account_type: "Employer",
+			
+		};
+
+		try {
+			const response = await fetch('http://92.53.64.89:8092/register_employer', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(formData),
+			});
+
+			if (response.ok) {
+				const response_json = await response.json();
+				console.log(response_json);
+				window.location.href = "/company-profile/" + response_json.user_id;
+			} else {
+				console.error('Ошибка при отправке формы');
+			}
+		} catch (error) {
+			console.error('Произошла ошибка:', error);
+		}
     };
 
     return (
