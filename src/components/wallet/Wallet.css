@@ -1,0 +1,68 @@
+.wallet__input-container {
+    width: 40%;
+    margin-bottom: 2%;
+}
+
+.input--fix {
+    margin-bottom: 0.5%;
+}
+
+.input--inline-flex {
+    width: 19%;
+    display: inline-flex;
+    margin-right: 2%;
+}
+
+.wallet__label {
+    font-size: calc(14px + (16 - 14) * ((100vw - 320px) / (1920 - 320)));
+    color: #000;
+}
+
+.wallet__input {
+    align-items: center;
+    border-radius: 4px;
+    border: 1px solid rgba(17, 17, 19, 0.20);
+    color: rgba(17, 17, 19, 0.60);
+    width: 100%;
+    min-height: 48px;
+    padding: 0 16px;
+    font-size: calc(16px + (19 - 16) * ((100vw - 1366px) / (1920 - 1366)));
+    margin-top: 5px;
+}
+.wallet__input::-webkit-outer-spin-button,
+.wallet__input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.wallet-container {
+    margin-bottom: 10vh;
+}
+
+.wallet__input-container {
+    position: relative;
+}
+
+.wallet__card-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    height: 24px;
+}
+
+.wallet__input--invalid {
+    border-color: red;
+}
+
+.wallet__add-card {
+    display: block;
+    margin: 0 10%;
+    width: 20%;
+    height: 48px;
+    background-color: #059BE5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
