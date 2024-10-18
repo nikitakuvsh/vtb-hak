@@ -37,6 +37,12 @@
     background-position: 3%;
 }
 
+.inn-input {
+    background: url('../../img/icons/inn-icon.png') no-repeat 3px 1px;
+    background-position: 3%;
+    /* background-size: 40px; */
+}
+
 .auth__content .submit-button {
     width: 100%;
     border-radius: 4px;
