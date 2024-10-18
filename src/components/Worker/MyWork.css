@@ -1,0 +1,77 @@
+.my-work-container .floating-label, .my-work-container .form__input, .my-work-container .choice__title {
+    color: black;
+}
+
+.my-work-container .form__input {
+    border: 1px solid #000;
+}
+
+.combined-input {
+    display: flex;
+    flex-grow: 1;
+    width: 100%;
+    gap: 2%;
+}
+
+.combined-input .input-container {
+    width: 100%;
+}
+
+.combined-input .floating-label {
+    top: 35%;
+}
+
+.combined-buttons-container {
+    display: flex;
+    gap: 1%;
+    margin-bottom: 10vh;
+}
+
+.leave-company {
+    background-color: #000;
+}
+
+.leave-company:before,
+.leave-company:after {
+    background: #000;
+}
+
+.modal-employer, .modal-worker {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.close {
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+}
+
+.close:hover, .close:focus {
+    color: black;
+}
+
+p {
+    margin: 15px 0;
+}

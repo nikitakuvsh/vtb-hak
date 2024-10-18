@@ -12,10 +12,11 @@ import ChoiceWorker from './components/Employee/ChoiceWorker';
 import ManageWorker from './components/Employee/ManageWorker';
 import Wallet from './components/wallet/Wallet';
 import Profile from './components/Profle/Profile';
+import MyWork from './components/Worker/MyWork';
 
 const App = () => {
   const location = useLocation();
-  const { id } = useParams(); // Получаем id из параметров URL
+  const { id } = useParams();
 
   return (
     <>
@@ -77,6 +78,10 @@ const App = () => {
                 path="manage-worker/:id"
                 element={<AnimatedZoomIn><ManageWorker /></AnimatedZoomIn>} // Страница кошелька для работодателя
               />
+              <Route 
+                path="my-work/:id"
+                element={<AnimatedZoomIn><MyWork /></AnimatedZoomIn>} // Страница кошелька для работодателя
+              />
             </Routes>
           </AnimatePresence>
         </div>
@@ -122,6 +127,9 @@ const Title = () => {
   }
   if (location.pathname.startsWith('/profile/') || location.pathname.startsWith('/company-profile/')) {
     title = 'Мой профиль';
+  }
+  if (location.pathname.startsWith('/my-work')) {
+    title = 'Моя работа';
   }
 
   return <MainTitleSection title={title} />;
