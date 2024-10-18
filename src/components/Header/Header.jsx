@@ -46,14 +46,12 @@ function Header() {
     };
   }, []);
 
-  // Меню для работника (Worker)
   const workerNavItems = [
     { path: `/choice-employer/${userId}`, label: 'Выбор работодателей' },
     { path: `/my-work/${userId}`, label: 'Моя работа' },
     { path: `/wallet/${userId}`, label: 'Кошелёк' },
   ];
 
-  // Меню для работодателя (Employer)
   const employerNavItems = [
     { path: `/choice-worker/${userId}`, label: 'Выбор сотрудников' },
     { path: `/manage-worker/${userId}`, label: 'Управление сотрудниками' },
@@ -62,7 +60,6 @@ function Header() {
 
   const navItems = userRole === 'Worker' ? workerNavItems : employerNavItems;
 
-  // Определяем корректный путь для кнопки "Профиль"
   const profilePath = userRole === 'Employer' ? `/company-profile/${userId}` : `/profile/${userId}`;
 
   return (
@@ -70,12 +67,8 @@ function Header() {
       {showImage && (
         <>
           <div className="header__logo">
-            <Link to="/">
-              <img className="header__logo-image" src={isMobile ? logoIconTeam : logoTeam} alt="Логотип команды" />
-            </Link>
-            <Link to="/">
-              <img className="header__logo-image" src={isMobile ? logoCompanyIcon : logoCompany} alt="Логотип компании" />
-            </Link>
+            <img className="header__logo-image" src={isMobile ? logoIconTeam : logoTeam} alt="Логотип команды" />
+            <img className="header__logo-image" src={isMobile ? logoCompanyIcon : logoCompany} alt="Логотип компании" />
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">

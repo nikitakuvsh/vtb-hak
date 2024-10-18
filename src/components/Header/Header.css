@@ -64,4 +64,5 @@ header {
     max-height: 72px;
     object-fit: cover;
     margin-right: 15px;
+    cursor: pointer;
 }

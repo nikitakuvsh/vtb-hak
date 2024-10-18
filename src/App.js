@@ -107,17 +107,21 @@ const Title = () => {
     case `/register-worker`:
       title = 'Регистрация сотрудника';
       break;
-    case `/profile/${id}`:
-      title = `Профиль сотрудника ${id}`;
-      break;
-    case `/company-profile/${id}`:
-      title = `Профиль работодателя ${id}`;
-      break;
-    case `/wallet/${id}`:
-      title = 'Кошелёк';
-      break;
     default:
       title = 'Извините, такой страницы не существует :(';
+  }
+
+  if (location.pathname.startsWith('/choice-worker')) {
+    title = 'Выбор сотрудников';
+  }
+  if (location.pathname.startsWith('/manage-worker')) {
+    title = 'Управление сотрудниками';
+  }
+  if (location.pathname.startsWith('/wallet')) {
+    title = 'Кошелёк';
+  }
+  if (location.pathname.startsWith('/profile/') || location.pathname.startsWith('/company-profile/')) {
+    title = 'Мой профиль';
   }
 
   return <MainTitleSection title={title} />;
