@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Header from './components/Header/Header';
 import MainTitleSection from './components/MainTitleSection/MainTitleSection';
@@ -11,9 +11,11 @@ import RegisterFormWorker from './components/RegisterForm/RegisterFormWorker';
 import ChoiceWorker from './components/Employee/ChoiceWorker';
 import ManageWorker from './components/Employee/ManageWorker';
 import Wallet from './components/wallet/Wallet';
+import Profile from './components/Profle/Profile';
 
 const App = () => {
   const location = useLocation();
+  const { id } = useParams(); // Получаем id из параметров URL
 
   return (
     <>
@@ -56,16 +58,24 @@ const App = () => {
                 element={<AnimatedZoomIn><RegisterFormWorker /></AnimatedZoomIn>} 
               />
               <Route 
-                path="/choice-worker"
-                element={<AnimatedZoomIn><ChoiceWorker /></AnimatedZoomIn>}
+                path="/profile/:id"
+                element={<AnimatedZoomIn><Profile /></AnimatedZoomIn>} // Страница для работника
               />
               <Route 
-                path="/manage-worker"
-                element={<AnimatedZoomIn><ManageWorker /></AnimatedZoomIn>}
+                path="/company-profile/:id"
+                element={<AnimatedZoomIn><Profile /></AnimatedZoomIn>} // Страница для работодателя
               />
               <Route 
-                path="/wallet"
-                element={<AnimatedZoomIn><Wallet /></AnimatedZoomIn>}
+                path="wallet/:id"
+                element={<AnimatedZoomIn><Wallet /></AnimatedZoomIn>} // Страница кошелька для работника
+              />
+              <Route 
+                path="choice-worker/:id"
+                element={<AnimatedZoomIn><ChoiceWorker /></AnimatedZoomIn>} // Страница кошелька для работодателя
+              />
+              <Route 
+                path="manage-worker/:id"
+                element={<AnimatedZoomIn><ManageWorker /></AnimatedZoomIn>} // Страница кошелька для работодателя
               />
             </Routes>
           </AnimatePresence>
@@ -77,34 +87,33 @@ const App = () => {
 
 const Title = () => {
   const location = useLocation();
+  const { id } = useParams(); // Получаем id из параметров URL
   let title;
 
   switch (location.pathname) {
-    case '/auth-employee':
+    case `/auth-employee`:
+    case `/auth-worker`:
       title = 'Авторизация';
       break;
-    case '/auth-worker':
-      title = 'Авторизация';
-      break;
-    case '/':
+    case `/`:
       title = 'Выбор роли';
       break;
-    case '/reset-password':
+    case `/reset-password`:
       title = 'Сброс пароля';
       break;
-    case '/register-employee':
+    case `/register-employee`:
       title = 'Регистрация работодателя';
       break;
-    case '/register-worker':
+    case `/register-worker`:
       title = 'Регистрация сотрудника';
       break;
-    case '/choice-worker':
-      title = 'Выбор сотрудников';
+    case `/profile/${id}`:
+      title = `Профиль сотрудника ${id}`;
       break;
-    case '/manage-worker':
-      title = 'Управление сотрудниками';
+    case `/company-profile/${id}`:
+      title = `Профиль работодателя ${id}`;
       break;
-    case '/wallet':
+    case `/wallet/${id}`:
       title = 'Кошелёк';
       break;
     default:

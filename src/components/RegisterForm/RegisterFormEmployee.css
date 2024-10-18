@@ -1,7 +1,11 @@
-.registration-container {
+.registration__form form{
     display: flex;
-    gap: 75px;
+    gap: 8%;
     justify-content: center;
+}
+
+.registr-inputs {
+    min-width: 50%;
 }
 
 .input-container {
@@ -17,7 +21,7 @@
     top: 50%;
     transform: translateY(-50%);
     left: 10px;
-    color: #fff;
+    color: var(--floatingLabelColorText);
     cursor: default;
     font-size: calc(16px + (25 - 16) * ((100vw - 1366px) / (1920 - 1366)));
 }
@@ -39,10 +43,6 @@
 
 .submit-button:hover{
     color: #ffffff;
-}
-
-.registration__form {
-    width: 50%;
 }
 
 .registration__role {

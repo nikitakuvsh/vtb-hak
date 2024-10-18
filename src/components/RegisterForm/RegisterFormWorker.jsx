@@ -20,11 +20,11 @@ function RegisterFormEmployee() {
                 }
             });
         };
-    
+
         const timeout = setTimeout(updatePadding, 100);
-    
+
         window.addEventListener('resize', updatePadding);
-    
+
         return () => {
             clearTimeout(timeout);
             window.removeEventListener('resize', updatePadding);
@@ -62,52 +62,52 @@ function RegisterFormEmployee() {
         return "";
     };
 
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-		const birthDateValue = inputRefs.current[1].value;
-		
-		if (birthDateValue) {
-			const birthDate = new Date(birthDateValue);
-			const ageValidationMessage = validateAge(birthDate);
-			if (ageValidationMessage) {
-				setAgeError(ageValidationMessage);
-				setIsModalOpen(true);
-				return;
-			}
-		}
-		setAgeError('');
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const birthDateValue = inputRefs.current[1].value;
 
-		const formData = {
-			name: inputRefs.current[0].value,
-			birthDate: birthDateValue,
-			email: inputRefs.current[2].value,
-			phone: inputRefs.current[3].value,
-			password: inputRefs.current[4].value,
-			account_type: "Worker",
-			
-		};
+        if (birthDateValue) {
+            const birthDate = new Date(birthDateValue);
+            const ageValidationMessage = validateAge(birthDate);
+            if (ageValidationMessage) {
+                setAgeError(ageValidationMessage);
+                setIsModalOpen(true);
+                return;
+            }
+        }
+        setAgeError('');
 
-		try {
-			const response = await fetch('http://92.53.64.89:8092/register_worker', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(formData),
-			});
+        const formData = {
+            name: inputRefs.current[0].value,
+            birthDate: birthDateValue,
+            email: inputRefs.current[2].value,
+            phone: inputRefs.current[3].value,
+            password: inputRefs.current[4].value,
+            account_type: "Worker",
 
-			if (response.ok) {
-				const response_json = await response.json();
-				console.log(response_json);
-				window.location.href = "/profile/" + response_json.user_id;
-			} else {
-				console.error('Ошибка при отправке формы');
-			}
-		} catch (error) {
-			console.error('Произошла ошибка:', error);
-		}
+        };
 
-	};
+        try {
+            const response = await fetch('http://92.53.64.89:8092/register_worker', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                const response_json = await response.json();
+                console.log(response_json);
+                window.location.href = "/profile/" + response_json.user_id;
+            } else {
+                console.error('Ошибка при отправке формы');
+            }
+        } catch (error) {
+            console.error('Произошла ошибка:', error);
+        }
+
+    };
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -121,90 +121,92 @@ function RegisterFormEmployee() {
 
     return (
         <div className="registration-container">
-            <div className="registration__role">
-                <img className="choice__icon worker__icon registration__icon--fix" src={profileImage} alt="Иконка пользователя" />
-                <h2 className="choice__title">Сотрудник</h2>
-                <button 
-                    className="choice__change-image" 
-                    type="button" 
-                    onClick={() => fileInputRef.current.click()}
-                >
-                    Выбрать свою фотографию
-                </button>
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    style={{ display: 'none' }}
-                    onChange={handleImageUpload}
-                    accept="image/*"
-                />
-            </div>
-
             <div className="registration__form form__employee">
-                <form onSubmit={handleSubmit}>
-                    <div className="input-container">
-                        <label htmlFor="name-of-user" className="floating-label">ФИО</label>
+                <form className="registr-form" onSubmit={handleSubmit}>
+                    <div className="registration__role">
+                        <img className="choice__icon worker__icon registration__icon--fix" src={profileImage} alt="Иконка пользователя" />
+                        <h2 className="choice__title">Сотрудник</h2>
+                        <button
+                            className="choice__change-image"
+                            type="button"
+                            onClick={() => fileInputRef.current.click()}
+                        >
+                            Выбрать свою фотографию
+                        </button>
                         <input
-                            type="text"
-                            className="form__input"
-                            name="name-of-user-input"
-                            required
-                            id="name-of-user"
-                            ref={el => inputRefs.current[0] = el}
+                            type="file"
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                            onChange={handleImageUpload}
+                            accept="image/*"
                         />
                     </div>
 
-                    <div className="input-container">
-                        <label htmlFor="birthday" className="floating-label">Дата рождения</label>
-                        <input
-                            type="date"
-                            className="form__input"
-                            name="birthday"
-                            required
-                            id="birthday"
-                            ref={el => inputRefs.current[1] = el}
-                        />
-                    </div>
-                    
-                    <div className="input-container">
-                        <label htmlFor="email" className="floating-label">Email</label>
-                        <input
-                            type="email"
-                            className="form__input"
-                            name="email-input"
-                            required
-                            id="email"
-                            ref={el => inputRefs.current[2] = el}
-                        />
-                    </div>
+                    <div className="registr-inputs">
+                        <div className="input-container">
+                            <label htmlFor="name-of-user" className="floating-label">ФИО</label>
+                            <input
+                                type="text"
+                                className="form__input"
+                                name="name-of-user-input"
+                                required
+                                id="name-of-user"
+                                ref={el => inputRefs.current[0] = el}
+                            />
+                        </div>
 
-                    <div className="input-container">
-                        <label htmlFor="phone" className="floating-label">Телефон</label>
-                        <input
-                            type="tel"
-                            className="form__input"
-                            name="phone-number-input"
-                            required
-                            id="phone"
-                            ref={el => inputRefs.current[3] = el}
-                        />
-                    </div>
+                        <div className="input-container">
+                            <label htmlFor="birthday" className="floating-label">Дата рождения</label>
+                            <input
+                                type="date"
+                                className="form__input"
+                                name="birthday"
+                                required
+                                id="birthday"
+                                ref={el => inputRefs.current[1] = el}
+                            />
+                        </div>
 
-                    <div className="input-container">
-                        <label htmlFor="password" className="floating-label">Пароль</label>
-                        <input 
-                            type="password"
-                            className="form__input"
-                            name="password"
-                            required
-                            id="password"
-                            ref={el => inputRefs.current[4] = el}
-                        />
-                    </div>
+                        <div className="input-container">
+                            <label htmlFor="email" className="floating-label">Email</label>
+                            <input
+                                type="email"
+                                className="form__input"
+                                name="email-input"
+                                required
+                                id="email"
+                                ref={el => inputRefs.current[2] = el}
+                            />
+                        </div>
 
-                    <button className="submit-button auth__button" type="submit">
-                        Зарегистрироваться
-                    </button>
+                        <div className="input-container">
+                            <label htmlFor="phone" className="floating-label">Телефон</label>
+                            <input
+                                type="tel"
+                                className="form__input"
+                                name="phone-number-input"
+                                required
+                                id="phone"
+                                ref={el => inputRefs.current[3] = el}
+                            />
+                        </div>
+
+                        <div className="input-container">
+                            <label htmlFor="password" className="floating-label">Пароль</label>
+                            <input
+                                type="password"
+                                className="form__input"
+                                name="password"
+                                required
+                                id="password"
+                                ref={el => inputRefs.current[4] = el}
+                            />
+                        </div>
+
+                        <button className="submit-button auth__button" type="submit">
+                            Зарегистрироваться
+                        </button>
+                    </div>
                 </form>
             </div>
 

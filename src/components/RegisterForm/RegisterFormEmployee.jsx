@@ -42,126 +42,128 @@ function RegisterFormEmployee() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = {
-			name: inputRefs.current[0].value,
-			// birthDate: birthDateValue,
-			email: inputRefs.current[1].value,
-			phone: inputRefs.current[2].value,
-			password: inputRefs.current[3].value,
-			address: inputRefs.current[4].value,
-			
-			account_type: "Employer",
-			
-		};
+            name: inputRefs.current[0].value,
+            // birthDate: birthDateValue,
+            email: inputRefs.current[1].value,
+            phone: inputRefs.current[2].value,
+            password: inputRefs.current[3].value,
+            address: inputRefs.current[4].value,
 
-		try {
-			const response = await fetch('http://92.53.64.89:8092/register_employer', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(formData),
-			});
+            account_type: "Employer",
 
-			if (response.ok) {
-				const response_json = await response.json();
-				console.log(response_json);
-				window.location.href = "/company-profile/" + response_json.user_id;
-			} else {
-				console.error('Ошибка при отправке формы');
-			}
-		} catch (error) {
-			console.error('Произошла ошибка:', error);
-		}
+        };
+
+        try {
+            const response = await fetch('http://92.53.64.89:8092/register_employer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                const response_json = await response.json();
+                console.log(response_json);
+                window.location.href = "/company-profile/" + response_json.user_id;
+            } else {
+                console.error('Ошибка при отправке формы');
+            }
+        } catch (error) {
+            console.error('Произошла ошибка:', error);
+        }
     };
 
     return (
         <div className="registration-container">
-            <div className="registration__role">
-                <img className="choice__icon employee__icon registration__icon--fix" src={profileImage} alt="Иконка пользователя" />
-                <h2 className="choice__title">Работодатель</h2>
-                <button 
-                    className="choice__change-image" 
-                    type="button" 
-                    onClick={() => fileInputRef.current.click()}
-                >
-                    Выбрать свою фотографию
-                </button>
-                <input
-                    type="file"
-                    ref={fileInputRef}
-                    style={{ display: 'none' }}
-                    onChange={handleImageUpload}
-                    accept="image/*"
-                />
-            </div>
-
             <div className="registration__form form__employee">
-                <form onSubmit={handleSubmit}>
-                    <div className="input-container">
-                        <label htmlFor="name-of-company" className="floating-label">Название компании</label>
+                <form className="registr-form" onSubmit={handleSubmit}>
+                    <div className="registration__role">
+                        <img className="choice__icon employee__icon registration__icon--fix" src={profileImage} alt="Иконка пользователя" />
+                        <h2 className="choice__title">Работодатель</h2>
+                        <button
+                            className="choice__change-image"
+                            type="button"
+                            onClick={() => fileInputRef.current.click()}
+                        >
+                            Выбрать свою фотографию
+                        </button>
                         <input
-                            type="text"
-                            className="form__input"
-                            name="name-of-company-input"
-                            required
-                            id="name-of-company"
-                            ref={el => inputRefs.current[0] = el}
+                            type="file"
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                            onChange={handleImageUpload}
+                            accept="image/*"
                         />
                     </div>
 
-                    <div className="input-container">
-                        <label htmlFor="email" className="floating-label">Email</label>
-                        <input
-                            type="email"
-                            className="form__input"
-                            name="email-input"
-                            required
-                            id="email"
-                            ref={el => inputRefs.current[1] = el}
-                        />
+                    <div className="registr-inputs">
+                        <div className="input-container">
+                            <label htmlFor="name-of-company" className="floating-label">Название компании</label>
+                            <input
+                                type="text"
+                                className="form__input"
+                                name="name-of-company-input"
+                                required
+                                id="name-of-company"
+                                ref={el => inputRefs.current[0] = el}
+                            />
+                        </div>
+
+                        <div className="input-container">
+                            <label htmlFor="email" className="floating-label">Email</label>
+                            <input
+                                type="email"
+                                className="form__input"
+                                name="email-input"
+                                required
+                                id="email"
+                                ref={el => inputRefs.current[1] = el}
+                            />
+                        </div>
+
+                        <div className="input-container">
+                            <label htmlFor="phone" className="floating-label">Телефон</label>
+                            <input
+                                type="tel"
+                                className="form__input"
+                                name="phone-number-input"
+                                required
+                                id="phone"
+                                ref={el => inputRefs.current[2] = el}
+                            />
+                        </div>
+
+                        <div className="input-container">
+                            <label htmlFor="password" className="floating-label">Пароль</label>
+                            <input
+                                type="password"
+                                className="form__input"
+                                name="password"
+                                required
+                                id="password"
+                                ref={el => inputRefs.current[3] = el}
+                            />
+                        </div>
+
+                        <AddressInput ref={el => inputRefs.current[4] = el} />
+
+                        <div className="input-container">
+                            <label htmlFor="inn-company" className="floating-label">ИНН</label>
+                            <input
+                                type="text"
+                                className="form__input"
+                                name="inn-company"
+                                required
+                                id="inn-company"
+                                ref={el => inputRefs.current[5] = el}
+                            />
+                        </div>
+
+                        <button className="submit-button auth__button" type="submit">
+                            Зарегистрироваться
+                        </button>
                     </div>
-
-                    <div className="input-container">
-                        <label htmlFor="phone" className="floating-label">Телефон</label>
-                        <input
-                            type="tel"
-                            className="form__input"
-                            name="phone-number-input"
-                            required
-                            id="phone"
-                            ref={el => inputRefs.current[2] = el}
-                        />
-                    </div>
-
-                    <div className="input-container">
-                        <label htmlFor="password" className="floating-label">Пароль</label>
-                        <input 
-                            type="password"
-                            className="form__input"
-                            name="password"
-                            required
-                            id="password"
-                            ref={el => inputRefs.current[3] = el}
-                        />
-                    </div>
-
-                    <AddressInput ref={el => inputRefs.current[4] = el} />
-
-                    <div className="input-container">
-                        <label htmlFor="inn-company" className="floating-label">ИНН</label>
-                        <input
-                            type="text"
-                            className="form__input"
-                            name="inn-company"
-                            required
-                            id="inn-company"
-                            ref={el => inputRefs.current[5] = el}
-                        />
-                    </div>
-
-                    <button className="submit-button auth__button" type="submit">
-                        Зарегистрироваться
-                    </button>
                 </form>
             </div>
         </div>

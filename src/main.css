@@ -12,6 +12,8 @@
   --mainTitleColorInverted: #000; /* Инвертированный цвет */
   --authButtonColorTextInverted: #fff; /* Инвертированный цвет */
   --authButtonBackgroundInverted: #2148C0;
+  --floatingLabelColorText: #fff;
+  --formInputColor: #fff;
 }
 
 body {
@@ -65,6 +67,7 @@ a, span, p, input, label, button {
   width: 95%;
   margin-bottom: 60px;
 }
+
 
 @font-face {
   font-family: 'Inter';

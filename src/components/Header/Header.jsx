@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import './Header.css';
 import logoTeam from '../../img/logo/logo-team.png';
 import logoIconTeam from '../../img/logo/logo-team-icon.svg';
@@ -10,6 +10,19 @@ import profileIcon from '../../img/icons/header-default-user-icon.png';
 function Header() {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.matchMedia("(max-width: 1400px)").matches);
+  const [userId, setUserId] = useState(null);
+  const [userRole, setUserRole] = useState(null); // Состояние для хранения роли пользователя
+
+  useEffect(() => {
+    const id = localStorage.getItem('userId');
+    const role = localStorage.getItem('userRole'); // Получаем роль из localStorage
+    if (id) {
+      setUserId(id);
+    }
+    if (role) {
+      setUserRole(role); // Устанавливаем роль в состояние
+    }
+  }, []);
 
   const hiddenImagePaths = [
     '/',
@@ -33,31 +46,46 @@ function Header() {
     };
   }, []);
 
-  const navItems = [
-    { path: '/choice-worker', label: 'Выбор сотрудников' },
-    { path: '/manage-worker', label: 'Управление сотрудниками' },
-    { path: '/wallet', label: 'Кошелёк' },
+  // Меню для работника (Worker)
+  const workerNavItems = [
+    { path: `/choice-employer/${userId}`, label: 'Выбор работодателей' },
+    { path: `/my-work/${userId}`, label: 'Моя работа' },
+    { path: `/wallet/${userId}`, label: 'Кошелёк' },
   ];
+
+  // Меню для работодателя (Employer)
+  const employerNavItems = [
+    { path: `/choice-worker/${userId}`, label: 'Выбор сотрудников' },
+    { path: `/manage-worker/${userId}`, label: 'Управление сотрудниками' },
+    { path: `/wallet/${userId}`, label: 'Кошелёк' },
+  ];
+
+  const navItems = userRole === 'Worker' ? workerNavItems : employerNavItems;
+
+  // Определяем корректный путь для кнопки "Профиль"
+  const profilePath = userRole === 'Employer' ? `/company-profile/${userId}` : `/profile/${userId}`;
 
   return (
     <div className="header__content">
       {showImage && (
         <>
           <div className="header__logo">
-            <a href="">
+            <Link to="/">
               <img className="header__logo-image" src={isMobile ? logoIconTeam : logoTeam} alt="Логотип команды" />
-            </a>
-            <a href=""><img className="header__logo-image" src={isMobile ? logoCompanyIcon : logoCompany} alt="Логотип компании" /></a>
+            </Link>
+            <Link to="/">
+              <img className="header__logo-image" src={isMobile ? logoCompanyIcon : logoCompany} alt="Логотип компании" />
+            </Link>
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">
               {navItems.map((item) => (
                 <li key={item.path} className={`header__nav-item ${location.pathname === item.path ? 'active' : ''}`}>
-                  <a href={item.path} className="header__nav-link">{item.label}</a>
+                  <Link to={item.path} className="header__nav-link">{item.label}</Link>
                 </li>
               ))}
               <li className="header__nav-item">
-                <button className="header__nav-button" onClick={() => window.location.href=`/profile/id`}>
+                <button className="header__nav-button" onClick={() => window.location.href = profilePath}>
                   <img src={profileIcon} alt="Профиль" className="header__nav-button-icon" />
                 </button>
               </li>
