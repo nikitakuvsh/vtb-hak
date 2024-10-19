@@ -1,0 +1,66 @@
+.create-course-container {
+    margin-bottom: 10vh;
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-course-container .education__card {
+    height: 5%;
+    width: 35%;
+}
+
+.create-course-container .floating-label, .create-course-container .form__input, .create-course-container .choice__title {
+    color: black;
+}
+
+.create-course-container .form__input {
+    border: 1px solid #000;
+    width: 100%;
+}
+
+.form__textarea {
+    min-height: max-content;
+    border-radius: 15px;
+    resize: none;
+}
+
+.textarea-container .floating-label {
+    top: 25%;
+}
+
+.course-content {
+    border-radius: 24px;
+    border: 2px solid #E6E6E6;
+    padding: 2%;
+    width: 130%;
+}
+
+.course-content__title {
+    margin-bottom: 1%;
+    font-size: calc(22px + (3 * (100vw - 768px) / 1152));
+}
+
+.course-content__checkbox {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+}
+
+.label-with-checkbox {
+    left: 30px;
+}
+
+.upload-file-create-course {
+    margin-right: 2%;
+}
+
+.content-fix {
+    border: none;
+}
+
+.create-button {
+    margin-top: 5%;
+    width: 130%;
+    height: 10%;
+}

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import useBackgroundSetter from "../../useBackgroundSetter";
 import './MyWork.css';
 
@@ -8,6 +9,7 @@ function MyWork() {
     const inputRefs = useRef([]);
     const [isEmployerModalOpen, setEmployerModalOpen] = useState(false);
     const [isWorkerModalOpen, setWorkerModalOpen] = useState(false);
+    const id = localStorage.getItem('userId');
 
     useEffect(() => {
         const updatePadding = () => {
@@ -132,7 +134,11 @@ function MyWork() {
                     Связаться с коллегами
                 </button>
                 <button className="check-feedback submit-button auth__button">Запросить рекомендации</button>
-                <button className="edu-button submit-button auth__button">Обучение</button>
+                <button className="edu-button submit-button auth__button"
+                    onClick={() => window.location.href = `/education/${id}`}
+                    >
+                    Обучение
+                </button>
                 <button className="achievements-button submit-button auth__button">Достижения</button>
                 <button className="leave-company submit-button auth__button">Уволиться</button>
             </div>

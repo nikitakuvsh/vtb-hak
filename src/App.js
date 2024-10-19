@@ -13,6 +13,8 @@ import ManageWorker from './components/Employee/ManageWorker';
 import Wallet from './components/wallet/Wallet';
 import Profile from './components/Profle/Profile';
 import MyWork from './components/Worker/MyWork';
+import Education from './components/Education/Education';
+import CreateCourse from './components/Employee/CreateCourse/CreateCourse';
 
 const App = () => {
   const location = useLocation();
@@ -82,6 +84,14 @@ const App = () => {
                 path="my-work/:id"
                 element={<AnimatedZoomIn><MyWork /></AnimatedZoomIn>} // Страница кошелька для работодателя
               />
+              <Route 
+                path="education/:id"
+                element={<AnimatedZoomIn><Education /></AnimatedZoomIn>} // Страница кошелька для работодателя
+              />
+              <Route 
+                path="create-course/:id"
+                element={<AnimatedZoomIn><CreateCourse /></AnimatedZoomIn>} // Страница кошелька для работодателя
+              />
             </Routes>
           </AnimatePresence>
         </div>
@@ -130,6 +140,12 @@ const Title = () => {
   }
   if (location.pathname.startsWith('/my-work')) {
     title = 'Моя работа';
+  }
+  if (location.pathname.startsWith('/education/')) {
+    title = 'Обучение';
+  }
+  if (location.pathname.startsWith('/create-course/')) {
+    title = 'Создание курса';
   }
 
   return <MainTitleSection title={title} />;
