@@ -84,6 +84,7 @@ function CreateCourse() {
                             type="text"
                             name="descr-course"
                             id="descr-course"
+                            maxLength='200'
                             ref={el => inputRefs.current[1] = el}
                         />
                     </div>
