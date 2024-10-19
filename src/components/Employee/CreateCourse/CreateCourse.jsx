@@ -74,6 +74,7 @@ function CreateCourse() {
                             type="text"
                             name="name-course"
                             id="name-course"
+                            maxLength='200'
                             ref={el => inputRefs.current[0] = el}
                         />
                     </div>
@@ -96,6 +97,7 @@ function CreateCourse() {
                         <label className="floating-label label-with-checkbox" htmlFor="name-module-course">Название модуля</label>
                         <input className="form__input" type="text" name="name-module-course" id="name-module-coruse"
                             ref={el => inputRefs.current[2] = el}
+                            maxLength='200'
                         />
                     </div>
                     <div className="input-container">
@@ -103,6 +105,7 @@ function CreateCourse() {
                         <label className="floating-label label-with-checkbox" htmlFor="descr-module-course">Описание</label>
                         <input className="form__input" type="text" name="descr-module-course" id="descr-module-coruse"
                             ref={el => inputRefs.current[3] = el}
+                            maxLength='200'
                         />
                     </div>
 
