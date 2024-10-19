@@ -13,7 +13,9 @@ function Education(){
                     <img className="education-icon" src={documentIcon} alt="Иконка документа" />
                     <h2 className="education-card__title">Загрузить курс</h2>
                     <div className="education-buttons">
-                        <button className="create-course education__button button-submit auth__button">Создать курс</button>
+                        <button className="create-course education__button button-submit auth__button"
+                            onClick={() => window.location.href = `/create-course/${localStorage.getItem('userId')}`}
+                            >Создать курс</button>
                     </div>
                 </div>
             </div>

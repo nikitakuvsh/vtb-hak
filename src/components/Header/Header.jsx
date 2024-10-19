@@ -56,6 +56,7 @@ function Header() {
     { path: `/choice-worker/${userId}`, label: 'Выбор сотрудников' },
     { path: `/manage-worker/${userId}`, label: 'Управление сотрудниками' },
     { path: `/wallet/${userId}`, label: 'Кошелёк' },
+    { path: `/education/${userId}`, label: 'Обучение' },
   ];
 
   const navItems = userRole === 'Worker' ? workerNavItems : employerNavItems;
