@@ -34,14 +34,13 @@ function CreateCourse() {
         const fileIndex = event.currentTarget.getAttribute('data-file-index');
         const fileInput = inputRefs.current[fileIndex];
         if (fileInput) {
-            fileInput.click(); // Имитация клика по input
+            fileInput.click();
 
-            // Добавляем обработчик для получения файла
             fileInput.onchange = () => {
                 const fileName = fileInput.files[0]?.name || "Файл не выбран";
-                if (fileIndex === '5') { // Если это сертификат
+                if (fileIndex === '5') {
                     setUploadMessage(`Сертификат "${fileName}" загружен.`);
-                } else if (fileIndex === '4') { // Если это загрузка курса
+                } else if (fileIndex === '4') {
                     setMainUploadMessage(`Файл "${fileName}" загружен.`);
                 }
             };
@@ -58,6 +57,7 @@ function CreateCourse() {
         // Логика отправки формы сертификатов
     };
 
+    // Одна кнопка отправляет сразу две формы
     const handleSubmitBothForms = async (event) => {
         await handleSubmitMainForm(event);
         await handleSubmitSertificateForm(event);
@@ -105,7 +105,6 @@ function CreateCourse() {
                         />
                     </div>
 
-                    {/* Скрытый input для загрузки файлов */}
                     <input
                         type="file"
                         style={{ display: 'none' }}
@@ -121,7 +120,6 @@ function CreateCourse() {
                     </button>
                     <span className="upload-file-create-course__span">Загрузка видео, аудио, текстовых документов</span>
 
-                    {/* Сообщение о загрузке файла курса */}
                     {mainUploadMessage && <p className="upload-message">{mainUploadMessage}</p>}
                 </div>
                 <button onClick={handleSubmitBothForms} className="create-button button-submit auth__button">Создать</button>
@@ -132,7 +130,6 @@ function CreateCourse() {
                         <img className="education-icon" src={documentIcon} alt="Иконка документа" />
                         <h2 className="education-card__title">Сертификаты</h2>
                         <div className="education-buttons">
-                            {/* Скрытый input для добавления сертификатов */}
                             <input
                                 type="file"
                                 style={{ display: 'none' }}
@@ -148,7 +145,6 @@ function CreateCourse() {
                             </button>
                             <button className="manage-sertificate education__button button-submit auth__button">Управлять</button>
                         </div>
-                        {/* Сообщение о загрузке сертификата */}
                         {uploadMessage && <p className="upload-message">{uploadMessage}</p>}
                     </div>
                 </form>
