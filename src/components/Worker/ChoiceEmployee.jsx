@@ -11,22 +11,11 @@ function ChoiceEmployee() {
     const [selectedWorker, setSelectedWorker] = useState(null);
     const [workers, setWorkers] = useState([]);
 
-    useEffect(() => {
-        const fetchWorkers = async () => {
-            const response = await new Promise(resolve => {
-                setTimeout(() => {
-                    resolve([
-                        { id: 1, title: 'КОМПАНИЯ 1', description: 'Описание 1', contactInfo: 'Телефон: 123456789, Email: company1@example.com' },
-                        { id: 2, title: 'КОМПАНИЯ 2', description: 'Описание 2', contactInfo: 'Телефон: 987654321, Email: company2@example.com' },
-                        { id: 3, title: 'КОМПАНИЯ 3', description: 'Описание 3', contactInfo: 'Телефон: 111222333, Email: company3@example.com' }
-                    ]);
-                }, 1000);
-            });
-            setWorkers(response);
-        };
-
-        fetchWorkers();
-    }, []);
+	useEffect(() => {
+		fetch('http://92.53.64.89:8092/employers_list')
+			.then(response => response.json())
+			.then(data => setWorkers(data.employers));
+	}, []);
 
     const handleCardClick = (worker) => {
         setSelectedWorker(worker);
