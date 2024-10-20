@@ -68,6 +68,9 @@ a, span, p, input, label, button {
   margin-bottom: 60px;
 }
 
+.worker__card-description {
+  word-wrap: break-word;
+}
 
 @font-face {
   font-family: 'Inter';
