@@ -16,6 +16,8 @@ import MyWork from './components/Worker/MyWork';
 import Education from './components/Education/Education';
 import CreateCourse from './components/Employee/CreateCourse/CreateCourse';
 import CreateSertificate from './components/Employee/CreateSertificate/CreateSertificate';
+import MyCourses from './components/Employee/MyCourses/MyCourses';
+import MySertificate from './components/Employee/MySertificate/MySertificate';
 
 const App = () => {
   const location = useLocation();
@@ -97,6 +99,14 @@ const App = () => {
                 path="create-sertificate/:id"
                 element={<AnimatedZoomIn><CreateSertificate /></AnimatedZoomIn>} // Страница кошелька для работодателя
               />
+              <Route 
+                path="my-courses/:id"
+                element={<AnimatedZoomIn><MyCourses /></AnimatedZoomIn>} // Страница кошелька для работодателя
+              />
+              <Route 
+                path="my-sertificate/:id"
+                element={<AnimatedZoomIn><MySertificate /></AnimatedZoomIn>} // Страница кошелька для работодателя
+              />
             </Routes>
           </AnimatePresence>
         </div>
@@ -154,6 +164,12 @@ const Title = () => {
   }
   if (location.pathname.startsWith('/create-sertificate/')){
     title = 'Создание сертификата';
+  }
+  if (location.pathname.startsWith('/my-courses/')){
+    title = 'Мои курсы';
+  }
+  if (location.pathname.startsWith('/my-sertificate/')){
+    title = 'Мои сертификаты';
   }
 
   return <MainTitleSection title={title} />;

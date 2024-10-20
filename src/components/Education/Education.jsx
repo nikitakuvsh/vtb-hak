@@ -57,7 +57,7 @@ function Education() {
                                 <img className="education-icon" src={documentIcon} alt="Иконка документа" />
                                 <h2 className="education-card__title">Мои курсы</h2>
                                 <div className="education-buttons">
-                                    <button className="open-courses education__button button-submit auth__button">Открыть</button>
+                                    <button className="open-courses education__button button-submit auth__button" onClick={() => window.location.href = `/my-courses/${localStorage.getItem('userId')}`}>Открыть</button>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +68,7 @@ function Education() {
                                 <h2 className="education-card__title">Сертификаты</h2>
                                 <div className="education-buttons">
                                     <button className="add-sertificate education__button button-submit auth__button" onClick={() => window.location.href = `/create-sertificate/${localStorage.getItem('userId')}`}>Добавить</button>
-                                    <button className="manage-sertificate education__button button-submit auth__button">Управлять</button>
+                                    <button className="manage-sertificate education__button button-submit auth__button" onClick={() => window.location.href = `/my-sertificate/${localStorage.getItem('userId')}`}>Управлять</button>
                                 </div>
                             </div>
                         </div>
