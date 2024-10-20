@@ -49,7 +49,11 @@ function Header() {
   const handleConnectWallet = async () => {
     if (window.ethereum) {
       try {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
+	const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const userAddress = accounts[0];
+
+		localStorage.setItem('userWalletAddress', userAddress);
+
         alert('MetaMask подключен!');
       } catch (error) {
         console.error('Ошибка при подключении MetaMask:', error);
@@ -63,7 +67,7 @@ function Header() {
   const workerNavItems = [
     { path: `/choice-employer/${userId}`, label: 'Выбор работодателей' },
     { path: `/my-work/${userId}`, label: 'Моя работа' },
-    { path: `/wallet/${userId}`, label: 'Кошелёк', onClick: handleConnectWallet },
+    {label: 'Кошелёк', onClick: handleConnectWallet },
   ];
 
   const employerNavItems = [

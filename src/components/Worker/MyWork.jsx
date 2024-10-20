@@ -31,7 +31,39 @@ function MyWork() {
             window.removeEventListener('resize', updatePadding);
         };
     }, []);
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const response = await fetch('http://92.53.64.89:8092/get_user_id_info', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: localStorage.getItem('userId'),
+                        account_type : 'Worker'
+                    }),
+                });
 
+                if (response.ok) {
+                    const data = await response.json();
+                    inputRefs.current.forEach((input, index) => {
+						console.log(data['user_info'][input.name]);
+                        if (data['user_info'][input.name] !== null && data['user_info'][input.name] !== undefined) {
+                            input.value = data['user_info'][input.name];
+
+                        }else{
+							input.value = "Нет данных";
+						}
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching user info:', error);
+            }
+        };
+
+        fetchUserInfo();
+    });
     const openEmployerModal = () => setEmployerModalOpen(true);
     const closeEmployerModal = () => setEmployerModalOpen(false);
 
@@ -62,16 +94,7 @@ function MyWork() {
                     />
                 </div>
             </div>
-            <div className="input-container">
-                <label htmlFor="worker-tasks" className="floating-label">Информация о текущих задачах работника</label>
-                <input
-                    className="form__input"
-                    type="text"
-                    name="worker-tasks"
-                    id="worker-tasks"
-                    ref={el => inputRefs.current[2] = el}
-                />
-            </div>
+
             <div className="combined-input">
                 <div className="input-container">
                     <label htmlFor="worker-salary" className="floating-label">Заработная плата</label>
@@ -133,7 +156,7 @@ function MyWork() {
                 <button className="write-workers submit-button auth__button" onClick={openWorkerModal}>
                     Связаться с коллегами
                 </button>
-                <button className="check-feedback submit-button auth__button">Запросить рекомендации</button>
+                <button className="check-feedback submit-button auth__button">Написать рекомендацию</button>
                 <button className="edu-button submit-button auth__button"
                     onClick={() => window.location.href = `/education/${id}`}
                     >

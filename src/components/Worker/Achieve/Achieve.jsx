@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useBackgroundSetter from "../../../useBackgroundSetter";
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
@@ -7,28 +7,7 @@ function Achieve() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
     const [selectedCertificate, setSelectedCertificate] = useState(null);
-    const [certificates, setCertificates] = useState([
-        {
-            id: 1,
-            title: `Сертификат 1`,
-            description: `Описание 1`,
-            issuedPerson: `Иванову Кириллу`,
-            comment: `За прохождение ДПО,`,
-            signatureArbitr: false,
-            signatureCompany: false,
-            transactionToken: '0000000000000e0000000000000'
-        },
-        {
-            id: 2,
-            title: `Сертификат 2`,
-            description: `Описание 2`,
-            issuedPerson: `Маргарите Романовне`,
-            comment: `За проведение ДПО`,
-            signatureArbitr: true,
-            signatureCompany: true,
-            transactionToken: '10213123hasj21231230088eeeee'
-        },
-    ]);
+    const [certificates, setCertificates] = useState([ ]);
 
     const handleCardClick = (certificate) => {
         setSelectedCertificate(certificate);
@@ -39,7 +18,42 @@ function Achieve() {
         setIsModalOpen(false);
         setSelectedCertificate(null);
     };
+	const handleMintNFT = async (id, flag1, flag2, event) => {
 
+		try {
+			const payload = {
+				cert_id: id,
+				address: localStorage.getItem('userWalletAddress')
+			}
+			if (localStorage.getItem('userWalletAddress') == undefined){
+				alert('Подключите кошелек');
+				return 0;
+			}
+			//Врубить когда арбитра добавим
+			// if (!flag1 || !flag2){
+				// alert('Не хватает подписей');
+				// return 0;
+			// }
+			const response = await fetch('http://92.53.64.89:8092/mint_nft', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(payload)
+			});
+
+			const result = await response.json();
+			if (response.ok) {
+				alert('NFT успешно сминчен!');
+			} else {
+				alert(`Ошибка: ${result.error || 'Не удалось сминтить нфт'}`);
+			}
+		} catch (error) {
+			console.error('Ошибка при обновлении данных:', error);
+			alert('Произошла ошибка при обновлении данных.');
+		}
+    };
+	
     const handleOpenConfirmDelete = () => {
         setIsConfirmDeleteOpen(true);
     };
@@ -47,6 +61,32 @@ function Achieve() {
     const handleCloseConfirmDelete = () => {
         setIsConfirmDeleteOpen(false);
     };
+	useEffect(() => {
+		const postData = async () => {
+			try {
+				const response = await fetch('http://92.53.64.89:8092/get_user_cretificates', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						user_id: localStorage.getItem('userId'),
+					}),
+				});
+
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+
+				const data = await response.json();
+				setCertificates(data.certificates);
+			} catch (error) {
+				console.error('Error fetching certificates:', error);
+			}
+		};
+
+		postData();
+	}, []);
 
     const handleDeleteCertificate = () => {
         setCertificates(prevCertificates => prevCertificates.filter(certificate => certificate.id !== selectedCertificate.id));
@@ -64,7 +104,7 @@ function Achieve() {
                     data-id={certificate.id}
                 >
                     <div className="worker__card-content">
-                        <h2 className="worker__card-title">{certificate.title}</h2>
+                        <h2 className="worker__card-title">Сертификат: {certificate.title} </h2>
                     </div>
                 </div>
             ))}
@@ -91,7 +131,12 @@ function Achieve() {
                             )}
                         </p>
                         <p className="worker__card-description">Токен транзакции {selectedCertificate.transactionToken}</p>
+						<p className="worker__card-description">Ссылка на транзакцию {selectedCertificate.transactionLink}</p>
+						<p className="worker__card-description">Ссылка на NFT https://sepolia.etherscan.io/tx/{selectedCertificate.NFT}</p>
+						
                         <button className="close-modal" onClick={handleCloseModal}>Закрыть</button>
+						<button className="close-modal" onClick={() => handleMintNFT(selectedCertificate.id, selectedCertificate.signatureArbitr, selectedCertificate.signatureCompany)}>Сминтить NFT</button>
+						
                     </div>
                 </div>
             )}

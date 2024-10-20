@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useBackgroundSetter from "../../useBackgroundSetter";
 import './Education.css';
 import documentIcon from '../../img/icons/document-icon.png';
@@ -8,10 +8,7 @@ function Education() {
     useBackgroundSetter();
 
     // Пример данных курсов
-    const [courses] = useState([
-        { id: 1, title: "Курс 1", description: "Описание курса 1", type: "required" },
-        { id: 2, title: "Курс 2", description: "Описание курса 2", type: "not-required" },
-        { id: 3, title: "Курс 3", description: "Описание курса 3", type: "my" }
+    const [courses, setCourses] = useState([
     ]);
 
     const showEmployer = localStorage.getItem('userRole') === 'Employer';
@@ -36,6 +33,11 @@ function Education() {
         console.log("Связаться с учениками");
         closeModal();
     };
+	useEffect(() => {
+		fetch('http://92.53.64.89:8092/courses')
+			.then(response => response.json())
+			.then(data => setCourses(data.courses));
+	}, []);
 
     const handleBlockStudent = () => {
         console.log("Заблокировать ученика");

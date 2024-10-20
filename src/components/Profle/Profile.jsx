@@ -17,18 +17,85 @@ function Profile() {
     const [isResumeUploaded, setIsResumeUploaded] = useState(false);
     const [isEmployer, setIsEmployer] = useState(false);
 
-    const handleImageUpload = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => setProfileImage(e.target.result);
-            reader.readAsDataURL(file);
-        }
-    };
+	const handleImageUpload = async (event) => {
+		const file = event.target.files[0];
+		
+		if (file) {
+			const formData = new FormData();
+			formData.append('image', file);
+			
+			const userId = localStorage.getItem('userId');
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-    };
+			try {
+				const response = await fetch(`http://92.53.64.89:8092/upload_profile_image/${userId}`, {
+					method: 'POST',
+					body: formData
+				});
+
+				if (response.ok) {
+					const reader = new FileReader();
+					reader.onload = (e) => setProfileImage(e.target.result);
+					reader.readAsDataURL(file);
+					alert('Фото успешно обновлено');
+				} else {
+					alert('Ошибка при обновлении фото');
+				}
+			} catch (error) {
+				console.error('Ошибка при загрузке фото:', error);
+				alert('Произошла ошибка при загрузке фото.');
+			}
+		}
+	};
+
+
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+
+		const userRole = localStorage.getItem('userRole'); 
+		const userId = localStorage.getItem('userId');
+
+		const payload = {
+			id: userId,
+			account_type: userRole,
+			// Collect the form data
+			'edit-name': inputRefs.current[0]?.value || null,
+			'email': inputRefs.current[1]?.value || null,
+			'phone': inputRefs.current[2]?.value || null,
+			...(userRole === 'Worker' && {
+				'birthday': inputRefs.current[3]?.value || null,
+				'education': inputRefs.current[4]?.value || null,
+				'about': inputRefs.current[5]?.value || null,
+				'contacts': inputRefs.current[6]?.value || null,
+			}),
+			...(userRole === 'Employer' && {
+				'company-name': inputRefs.current[3]?.value || null,
+				'company-email': inputRefs.current[4]?.value || null,
+				'company-phone': inputRefs.current[5]?.value || null,
+				'company-address': inputRefs.current[6]?.value || null,
+			})
+		};
+
+		try {
+			const response = await fetch('http://92.53.64.89:8092/update_user_info', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(payload)
+			});
+
+			const result = await response.json();
+			if (response.ok) {
+				alert('Данные успешно обновлены');
+			} else {
+				alert(`Ошибка: ${result.error || 'Не удалось обновить данные'}`);
+			}
+		} catch (error) {
+			console.error('Ошибка при обновлении данных:', error);
+			alert('Произошла ошибка при обновлении данных.');
+		}
+	};
+
 
     const handleResumeUpload = (event) => {
         const file = event.target.files[0];
@@ -50,6 +117,56 @@ function Profile() {
             setIsEmployer(userRole === 'Employer');
         }
     }, [id, location.pathname]);
+	useEffect(() => {
+		const fetchProfileImage = async () => {
+			try {
+				const userId = localStorage.getItem('userId');
+				const response = await fetch(`http://92.53.64.89:8092/get_profile_image/${userId}`);
+				
+				if (response.ok) {
+					const imageUrl = response.url;
+					setProfileImage(imageUrl);
+				} else {
+					setProfileImage(userIcon);
+				}
+			} catch (error) {
+				console.error('Ошибка при загрузке фотографии профиля:', error);
+			}
+		};
+
+		fetchProfileImage();
+	}, [id]);
+
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const response = await fetch('http://92.53.64.89:8092/get_user_id_info', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        id: localStorage.getItem('userId'),
+                        account_type: isEmployer ? 'Employer' : 'Worker'
+                    }),
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    inputRefs.current.forEach((input, index) => {
+                        if (data['user_info'][input.name] !== null && data['user_info'][input.name] !== undefined) {
+                            input.value = data['user_info'][input.name];
+
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching user info:', error);
+            }
+        };
+
+        fetchUserInfo();
+    }, [isEmployer]);
 
     useEffect(() => {
         const updatePadding = () => {
@@ -57,7 +174,7 @@ function Profile() {
                 const label = input?.previousElementSibling;
                 if (label) {
                     const labelWidth = label.offsetWidth;
-                    const padding = 20;
+                    const padding = 10;
                     input.style.paddingLeft = `${labelWidth + padding}px`;
                 }
             });
@@ -71,7 +188,6 @@ function Profile() {
             window.removeEventListener('resize', updatePadding);
         };
     }, []);
-
     return (
         <div className='profile-container'>
             <form onSubmit={handleSubmit}>
@@ -116,30 +232,16 @@ function Profile() {
                                 <label htmlFor='education' className='floating-label'>Образование</label>
                                 <input className='form__input' type='text' id='education' name='education' ref={el => inputRefs.current[4] = el}></input>
                             </div>
-                            <div className='input-container resume-container'>
-                                <label htmlFor="upload-resume">Резюме/портфолио</label>
-                                <input
-                                    type="file"
-                                    ref={resumeInputRef}
-                                    style={{ display: 'none' }}
-                                    onChange={handleResumeUpload}
-                                    accept="application/pdf"
-                                    name="upload-resume"
-                                    id="upload-resume"
-                                />
-                                <button
-                                    type="button"
-                                    className="upload-resume choice__change-image"
-                                    onClick={() => resumeInputRef.current.click()}
-                                >
-                                    Загрузить резюме
-                                </button>
-                                {resumeName && (
-                                    <div>
-                                        {isResumeUploaded && <CheckIcon className="upload-check-icon" />}
-                                    </div>
-                                )}
+                            <div className='input-container'>
+                                <label htmlFor='about' className='floating-label'>Обо мне</label>
+                                <input className='form__input' type='text' id='about' name='about' ref={el => inputRefs.current[5] = el}></input>
                             </div>
+							<div className='input-container'>
+                                <label htmlFor='contacts' className='floating-label'>Контакты для связи</label>
+                                <input className='form__input' type='text' id='contacts' name='contacts' ref={el => inputRefs.current[6] = el}></input>
+                            </div>
+							
+
                         </>
                     )}
                     {isEmployer && ( 

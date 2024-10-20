@@ -7,7 +7,7 @@ function ChoiceEmployee() {
     useBackgroundSetter();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isContactModalOpen, setIsContactModalOpen] = useState(false); // Новое состояние для контактного модального окна
+    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
     const [selectedWorker, setSelectedWorker] = useState(null);
     const [workers, setWorkers] = useState([]);
 
@@ -36,11 +36,11 @@ function ChoiceEmployee() {
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setSelectedWorker(null);
-        setIsContactModalOpen(false); // Закрываем контактное модальное окно
+        setIsContactModalOpen(false);
     };
 
     const handleContactClick = () => {
-        setIsContactModalOpen(true); // Открываем контактное модальное окно
+        setIsContactModalOpen(true);
     };
 
     return (
