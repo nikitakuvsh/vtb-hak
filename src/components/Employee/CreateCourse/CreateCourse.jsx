@@ -8,7 +8,7 @@ function CreateCourse() {
     const inputRefs = useRef([]);
     const [uploadMessage, setUploadMessage] = useState(''); // Сообщение о загрузке сертификата
     const [mainUploadMessage, setMainUploadMessage] = useState(''); // Сообщение о загрузке файла курса
-
+    const fileInputRef = useRef(null);
     useEffect(() => {
         const updatePadding = () => {
             inputRefs.current.forEach(input => {
@@ -49,19 +49,48 @@ function CreateCourse() {
 
     const handleSubmitMainForm = async (event) => {
         event.preventDefault();
-        // Логика отправки основной формы
-    };
+ };
 
     const handleSubmitSertificateForm = async (event) => {
         event.preventDefault();
-        // Логика отправки формы сертификатов
+       
     };
 
-    // Одна кнопка отправляет сразу две формы
-    const handleSubmitBothForms = async (event) => {
-        await handleSubmitMainForm(event);
-        await handleSubmitSertificateForm(event);
-    };
+	const handleSubmitBothForms = async (event) => {
+		event.preventDefault();
+
+
+		const formData = new FormData();
+		const courseFile = inputRefs.current[4]?.files[0];
+		const certificateFile = inputRefs.current[5]?.files[0];
+
+		if (courseFile && certificateFile) {
+			formData.append("course_file", courseFile); 
+			formData.append("certificate_file", certificateFile); 
+			formData.append("course_name", inputRefs.current[0]?.value || "");
+			formData.append("course_description", inputRefs.current[1]?.value || "");
+			formData.append("course_creator", localStorage.getItem('userId'));
+
+			try {
+				const response = await fetch('http://92.53.64.89:8092/create_course', {
+					method: 'POST',
+					body: formData,
+				});
+
+				if (response.ok) {
+					setMainUploadMessage("Файл курса и сертификат успешно загружены!");
+				} else {
+					setMainUploadMessage("Ошибка при загрузке файлов.");
+				}
+			} catch (error) {
+				console.error('Ошибка:', error);
+				setMainUploadMessage("Произошла ошибка при загрузке.");
+			}
+		} else {
+			setMainUploadMessage("Файлы не выбраны.");
+		}
+	};
+
 
     return (
         <div className="create-course-container">
@@ -74,7 +103,6 @@ function CreateCourse() {
                             type="text"
                             name="name-course"
                             id="name-course"
-                            maxLength='200'
                             ref={el => inputRefs.current[0] = el}
                         />
                     </div>
@@ -85,7 +113,6 @@ function CreateCourse() {
                             type="text"
                             name="descr-course"
                             id="descr-course"
-                            maxLength='200'
                             ref={el => inputRefs.current[1] = el}
                         />
                     </div>
@@ -97,7 +124,6 @@ function CreateCourse() {
                         <label className="floating-label label-with-checkbox" htmlFor="name-module-course">Название модуля</label>
                         <input className="form__input" type="text" name="name-module-course" id="name-module-coruse"
                             ref={el => inputRefs.current[2] = el}
-                            maxLength='200'
                         />
                     </div>
                     <div className="input-container">
@@ -105,7 +131,6 @@ function CreateCourse() {
                         <label className="floating-label label-with-checkbox" htmlFor="descr-module-course">Описание</label>
                         <input className="form__input" type="text" name="descr-module-course" id="descr-module-coruse"
                             ref={el => inputRefs.current[3] = el}
-                            maxLength='200'
                         />
                     </div>
 
