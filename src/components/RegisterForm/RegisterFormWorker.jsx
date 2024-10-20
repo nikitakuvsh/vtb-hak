@@ -76,24 +76,21 @@ function RegisterFormEmployee() {
             }
         }
         setAgeError('');
-
-        const formData = {
-            name: inputRefs.current[0].value,
-            birthDate: birthDateValue,
-            email: inputRefs.current[2].value,
-            phone: inputRefs.current[3].value,
-            password: inputRefs.current[4].value,
-            account_type: "Worker",
-
-        };
-
+		const formData = new FormData();
+		formData.append('name', inputRefs.current[0].value);
+		formData.append('email', inputRefs.current[2].value);
+		formData.append('phone', inputRefs.current[3].value);
+		formData.append('password', inputRefs.current[4].value);
+		formData.append('birthDate', birthDateValue);
+		
+		formData.append('account_type', "Worker");
+		if (fileInputRef.current.files[0]) {
+			formData.append("profile_image", fileInputRef.current.files[0]);
+		}
         try {
             const response = await fetch('http://92.53.64.89:8092/register_worker', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
+                body: formData, 
             });
 
             if (response.ok) {
