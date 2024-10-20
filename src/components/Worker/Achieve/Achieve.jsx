@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useBackgroundSetter from "../../../useBackgroundSetter";
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
-function MySertificate() {
+function Achieve() {
     useBackgroundSetter();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
@@ -91,9 +91,6 @@ function MySertificate() {
                             )}
                         </p>
                         <p className="worker__card-description">Токен транзакции {selectedCertificate.transactionToken}</p>
-                        <button className="accept-sertificate card-button">Подтверждение сертификата</button>
-                        <button className="card-button">Изменить</button>
-                        <button className="card-button" onClick={handleOpenConfirmDelete}>Удалить</button>
                         <button className="close-modal" onClick={handleCloseModal}>Закрыть</button>
                     </div>
                 </div>
@@ -114,4 +111,4 @@ function MySertificate() {
     );
 }
 
-export default MySertificate;
+export default Achieve;

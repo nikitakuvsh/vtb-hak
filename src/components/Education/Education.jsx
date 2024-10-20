@@ -32,6 +32,41 @@ function Education() {
         setSelectedCourse(null);
     };
 
+    const handleContactStudents = () => {
+        console.log("Связаться с учениками");
+        closeModal();
+    };
+
+    const handleBlockStudent = () => {
+        console.log("Заблокировать ученика");
+        closeModal();
+    };
+
+    const handleAddCertificate = () => {
+        console.log("Добавить сертификат");
+        closeModal();
+    };
+
+    const handleSendMessage = () => {
+        console.log("Написать создателю");
+        closeModal();
+    };
+
+    const handleLeaveReview = () => {
+        console.log("Оставить отзыв");
+        closeModal();
+    };
+
+    const handleViewAchievements = () => {
+        console.log("Посмотреть достижения/прогресс");
+        closeModal();
+    };
+
+    const handleCompleteCourse = () => {
+        console.log("Завершить курс");
+        closeModal();
+    };
+
     return (
         <>
             {showEmployer ? (
@@ -74,13 +109,13 @@ function Education() {
                         </div>
                     </div>
 
-                    <div className="education__card progress-worker">
+                    {/* <div className="education__card progress-worker">
                         <h2 className="education-card__title">Прогресс сотрудников</h2>
                         <div className="progress-worker__buttons education-buttons">
                             <button className="check-progress progress__button button-submit auth__button">Посмотреть</button>
                             <button className="send-message progress__button button-submit auth__button">Отправить сообщение</button>
                         </div>
-                    </div>
+                    </div> */}
                 </>
             ) : (
                 <div className="cards__inner">
@@ -114,16 +149,18 @@ function Education() {
                         <div className="modal-buttons-education">
                             {selectedCourse?.type !== 'my' &&(
                                 <>
-                                <button onClick={closeModal} className="auth__button">Написать создателю</button>
-                                <button onClick={closeModal} className="auth__button">Оставить отзыв</button>
-                                <button onClick={closeModal} className="auth__button">Достижения/прогресс</button>
+                               <button onClick={handleSendMessage} className="auth__button">Написать создателю</button>
+                                <button onClick={handleLeaveReview} className="auth__button">Оставить отзыв</button>
+                                <button onClick={handleViewAchievements} className="auth__button">Достижения/прогресс</button>
+                                <button onClick={handleCompleteCourse} className="auth__button">Завершить курс</button>
+                                <button onClick={closeModal} className="auth__button">Закрыть</button>
                                 </>
                             )}
                             {selectedCourse?.type == 'my' &&(
                                 <>
-                                <button onClick={closeModal} className="auth__button">Связаться с учениками</button>
-                                <button onClick={closeModal} className="auth__button">Заблокировать ученика</button>
-                                <button onClick={closeModal} className="auth__button">Добавить сертификат</button>
+                                <button onClick={handleContactStudents} className="auth__button">Связаться с учениками</button>
+                                <button onClick={handleBlockStudent} className="auth__button">Заблокировать ученика</button>
+                                <button onClick={handleAddCertificate} className="auth__button">Добавить сертификат</button>
                                 </>
                             )}
                         </div>

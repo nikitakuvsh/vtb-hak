@@ -19,6 +19,7 @@ import CreateSertificate from './components/Employee/CreateSertificate/CreateSer
 import MyCourses from './components/Employee/MyCourses/MyCourses';
 import MySertificate from './components/Employee/MySertificate/MySertificate';
 import WorkerRole from './components/workerRole/workerRole';
+import Achieve from './components/Worker/Achieve/Achieve';
 
 const App = () => {
   const location = useLocation();
@@ -112,8 +113,11 @@ const App = () => {
                 path="worker-role/:id"
                 element={<AnimatedZoomIn><WorkerRole /></AnimatedZoomIn>} // Страница кошелька для работодателя
               />
+              <Route 
+                path="achieve/:id"
+                element={<AnimatedZoomIn><Achieve /></AnimatedZoomIn>} // Страница кошелька для работодателя
+              />
             </Routes>
-            
           </AnimatePresence>
         </div>
       </main>
@@ -179,6 +183,9 @@ const Title = () => {
   }
   if (location.pathname.startsWith('/worker-role')){
     title = 'Должность';
+  }
+  if (location.pathname.startsWith('/achieve')){
+    title = 'Достижения';
   }
 
   return <MainTitleSection title={title} />;

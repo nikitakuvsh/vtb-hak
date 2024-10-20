@@ -8,19 +8,27 @@ function ChoiceWorker() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedWorker, setSelectedWorker] = useState(null);
+    const [workers, setWorkers] = useState([]);
 
-    const workers = [
-        {
-            id: 1,
-            title: `ФИО 1`,
-            description: `Описание 1`
-        },
-        {
-            id: 2,
-            title: `ФИО 2`,
-            description: `Описание 2`
-        },
-    ];
+    // Тут данные с сервера
+    useEffect(() => {
+        // В реальности тут будет fetch('/api/workers') или другой запрос к серверу
+        const fetchWorkers = async () => {
+            // Заглушка
+            const response = await new Promise(resolve => {
+                setTimeout(() => {
+                    resolve([
+                        { id: 1, title: 'ФИО 1', description: 'Описание 1' },
+                        { id: 2, title: 'ФИО 2', description: 'Описание 2' },
+                        { id: 3, title: 'ФИО 3', description: 'Описание 3' }
+                    ]);
+                }, 1000); // Тут типа сервер ответил через секунду сет таймаунт можно убрать
+            });
+            setWorkers(response);
+        };
+
+        fetchWorkers();
+    }, []); // Зависимость [] означает, что запрос выполнится один раз при монтировании компонента
 
     const handleCardClick = (worker) => {
         setSelectedWorker(worker);
@@ -51,7 +59,7 @@ function ChoiceWorker() {
                 </div>
             ))}
 
-            {isModalOpen && (
+            {isModalOpen && selectedWorker && (
                 <div className="worker__card-modal">
                     <div className="worker__card--image-container">
                         <img className="worker__card-image" src={workerIconCard} alt="Логотип компании" />

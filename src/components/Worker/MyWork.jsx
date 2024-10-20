@@ -139,7 +139,7 @@ function MyWork() {
                     >
                     Обучение
                 </button>
-                <button className="achievements-button submit-button auth__button">Достижения</button>
+                <button className="achievements-button submit-button auth__button" onClick={() => window.location.href = `/achieve/${localStorage.getItem('userId')}`}>Достижения</button>
                 <button className="leave-company submit-button auth__button">Уволиться</button>
             </div>
 
