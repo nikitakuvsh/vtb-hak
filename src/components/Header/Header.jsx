@@ -45,23 +45,38 @@ function Header() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+  // Функ для подключения лисы, если переделаем на него - здесь блять, здесь!
+  const handleConnectWallet = async () => {
+    if (window.ethereum) {
+      try {
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        alert('MetaMask подключен!');
+      } catch (error) {
+        console.error('Ошибка при подключении MetaMask:', error);
+        alert('Ошибка при подключении MetaMask.');
+      }
+    } else {
+      alert('MetaMask не найден. Пожалуйста, установите MetaMask.');
+    }
+  };
 
   const workerNavItems = [
     { path: `/choice-employer/${userId}`, label: 'Выбор работодателей' },
     { path: `/my-work/${userId}`, label: 'Моя работа' },
-    { path: `/wallet/${userId}`, label: 'Кошелёк' },
+    { path: `/wallet/${userId}`, label: 'Кошелёк', onClick: handleConnectWallet },
   ];
 
   const employerNavItems = [
     { path: `/choice-worker/${userId}`, label: 'Выбор сотрудников' },
     { path: `/manage-worker/${userId}`, label: 'Управление сотрудниками' },
-    { path: `/wallet/${userId}`, label: 'Кошелёк' },
-    { path: `/education/${userId}`, label: 'Обучение' },
+    {label: 'Кошелёк', onClick: handleConnectWallet },
   ];
 
   const navItems = userRole === 'Worker' ? workerNavItems : employerNavItems;
 
   const profilePath = userRole === 'Employer' ? `/company-profile/${userId}` : `/profile/${userId}`;
+
+  
 
   return (
     <div className="header__content">
@@ -75,7 +90,9 @@ function Header() {
             <ul className="header__nav-list">
               {navItems.map((item) => (
                 <li key={item.path} className={`header__nav-item ${location.pathname === item.path ? 'active' : ''}`}>
-                  <Link to={item.path} className="header__nav-link">{item.label}</Link>
+                  <Link to={item.path} className="header__nav-link" onClick={item.onClick}>
+                    {item.label}
+                  </Link>
                 </li>
               ))}
               <li className="header__nav-item">
