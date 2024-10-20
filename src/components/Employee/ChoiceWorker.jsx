@@ -11,25 +11,11 @@ function ChoiceWorker() {
     const [selectedWorker, setSelectedWorker] = useState(null);
     const [workers, setWorkers] = useState([]);
 
-    // Тут данные с сервера
     useEffect(() => {
-        // В реальности тут будет fetch('/api/workers') или другой запрос к серверу
-        const fetchWorkers = async () => {
-            // Заглушка
-            const response = await new Promise(resolve => {
-                setTimeout(() => {
-                    resolve([
-                        { id: 1, title: 'ФИО 1', description: 'Описание 1', contact: 'contact1@example.com' },
-                        { id: 2, title: 'ФИО 2', description: 'Описание 2', contact: 'contact2@example.com' },
-                        { id: 3, title: 'ФИО 3', description: 'Описание 3', contact: 'contact3@example.com' }
-                    ]);
-                }, 1000); // Тут типа сервер ответил через секунду, сет таймаут можно убрать
-            });
-            setWorkers(response);
-        };
-
-        fetchWorkers();
-    }, []); // Зависимость [] означает, что запрос выполнится один раз при монтировании компонента
+	fetch('http://92.53.64.89:8092/workers_list')
+			.then(response => response.json())
+			.then(data => setWorkers(data.workers));
+	}, []);
 
     const handleCardClick = (worker) => {
         setSelectedWorker(worker);
@@ -43,6 +29,39 @@ function ChoiceWorker() {
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setSelectedWorker(null);
+    };
+	const handleRecruit = async (id, company_id) => {
+
+		try {
+			const payload = {
+				user_id: id,
+				company_id: company_id
+			}
+
+			//Врубить когда арбитра добавим
+			// if (!flag1 || !flag2){
+				// alert('Не хватает подписей');
+				// return 0;
+			// }
+			const response = await fetch('http://92.53.64.89:8092/recruit_worker', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(payload)
+			});
+
+			const result = await response.json();
+			if (response.ok) {
+				alert('Вы успешно наняли сотрудника!');
+			} else {
+				alert(`Ошибка: ${result.error || 'Не удалось нанять сотрудника (((('}`);
+			}
+		} catch (error) {
+			console.error('Ошибка при обновлении данных:', error);
+			alert('Произошла ошибка при обновлении данных.');
+		}
+		handleCloseModal();
     };
 
     const handleCloseContactModal = () => {
@@ -78,7 +97,7 @@ function ChoiceWorker() {
                         <h2 className="worker__card-title">{selectedWorker.title}</h2>
                         <p className="worker__card-descr">{selectedWorker.description}</p>
                         <button className="card-button" onClick={handleContactClick}>Связаться с сотрудником</button>
-                        <button className="card-button">Пригласить</button>
+                        <button className="card-button" onClick={() => handleRecruit(selectedWorker.id, localStorage.getItem('userId'))}>Пригласить</button>
                         <button className="close-modal" onClick={handleCloseModal}>Закрыть</button>
                     </div>
                 </div>

@@ -12,23 +12,11 @@ function ManageWorker() {
     const [selectedWorker, setSelectedWorker] = useState(null);
     const [workers, setWorkers] = useState([]);
 
-    // Смотри ChoiceWorker
-    useEffect(() => {
-        const fetchWorkers = async () => {
-            const response = await new Promise(resolve => {
-                setTimeout(() => {
-                    resolve([
-                        { id: 1, title: 'ФИО 1', description: 'Описание 1' },
-                        { id: 2, title: 'ФИО 2', description: 'Описание 2' },
-                        { id: 3, title: 'ФИО 3', description: 'Описание 3' }
-                    ]);
-                }, 1000);
-            });
-            setWorkers(response);
-        };
-
-        fetchWorkers();
-    }, []);
+	useEffect(() => {
+	fetch('http://92.53.64.89:8092/workers_in_company_list/'+localStorage.getItem('userId'))
+			.then(response => response.json())
+			.then(data => setWorkers(data.workers));
+	}, []);
 
     const handleCardClick = (worker) => {
         setSelectedWorker(worker);
@@ -57,7 +45,38 @@ function ManageWorker() {
         setIsContactModalOpen(false);
         setSelectedWorker(null);
     };
+	const handleRecruit = async (id, company_id) => {
 
+		try {
+			const payload = {
+				user_id: id
+			}
+
+			//Врубить когда арбитра добавим
+			// if (!flag1 || !flag2){
+				// alert('Не хватает подписей');
+				// return 0;
+			// }
+			const response = await fetch('http://92.53.64.89:8092/recruit_worker', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(payload)
+			});
+
+			const result = await response.json();
+			if (response.ok) {
+				alert('Вы успешно уволили сотрудника!');
+			} else {
+				alert(`Ошибка: ${result.error || 'Не удалось нанять сотрудника (((('}`);
+			}
+		} catch (error) {
+			console.error('Ошибка при обновлении данных:', error);
+			alert('Произошла ошибка при обновлении данных.');
+		}
+		handleCloseModal();
+    };
     return (
         <div className="cards__inner">
             {workers.map(worker => (
@@ -89,7 +108,7 @@ function ManageWorker() {
                         <button className="card-button" onClick={handleFeedbackClick}>Запросить отзыв</button>
                         <button className="card-button" onClick={handleContactClick}>Связаться с сотрудником</button>
                         <button className="card-button">Достижения</button>
-                        <button className="card-button button-kick">Уволить</button>
+                        <button className="card-button button-kick" onClick={() => handleRecruit(selectedWorker.id, localStorage.getItem('userId'))}>Уволить</button>
                         <button className="close-modal" onClick={handleCloseModal}>Закрыть</button>
                     </div>
                 </div>

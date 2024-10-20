@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import useBackgroundSetter from "../../../useBackgroundSetter";
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
@@ -7,29 +7,62 @@ function MySertificate() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
     const [selectedCertificate, setSelectedCertificate] = useState(null);
-    const [certificates, setCertificates] = useState([
-        {
-            id: 1,
-            title: `Сертификат 1`,
-            description: `Описание 1`,
-            issuedPerson: `Иванову Кириллу`,
-            comment: `За прохождение ДПО,`,
-            signatureArbitr: false,
-            signatureCompany: false,
-            transactionToken: '0000000000000e0000000000000'
-        },
-        {
-            id: 2,
-            title: `Сертификат 2`,
-            description: `Описание 2`,
-            issuedPerson: `Маргарите Романовне`,
-            comment: `За проведение ДПО`,
-            signatureArbitr: true,
-            signatureCompany: true,
-            transactionToken: '10213123hasj21231230088eeeee'
-        },
-    ]);
+    const [certificates, setCertificates] = useState([]);
+	useEffect(() => {
+		const postData = async () => {
+			try {
+				const response = await fetch('http://92.53.64.89:8092/get_company_cretificates', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						user_id: localStorage.getItem('userId'),
+					}),
+				});
 
+				if (!response.ok) {
+					throw new Error('Network response was not ok');
+				}
+
+				const data = await response.json();
+				setCertificates(data.certificates);
+			} catch (error) {
+				console.error('Error fetching certificates:', error);
+			}
+		};
+
+		postData();
+	}, []);
+	const handleConfirmSert = async (id) => {
+
+		try {
+			const payload = {
+				cert_id: id,
+				company_id: localStorage.getItem('userId')
+			}
+			console.log(id);
+			
+			const response = await fetch('http://92.53.64.89:8092/confirm_certificate', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(payload)
+			});
+
+			const result = await response.json();
+			if (response.ok) {
+				alert('Сертификат успешно подтверждет!');
+			} else {
+				alert(`Ошибка: ${result.error || 'Не удалось удалить сертификат'}`);
+			}
+		} catch (error) {
+			console.error('Ошибка при обновлении данных:', error);
+			alert('Произошла ошибка при обновлении данных.');
+		}
+		handleCloseModal();
+    };
     const handleCardClick = (certificate) => {
         setSelectedCertificate(certificate);
         setIsModalOpen(true);
@@ -91,7 +124,7 @@ function MySertificate() {
                             )}
                         </p>
                         <p className="worker__card-description">Токен транзакции {selectedCertificate.transactionToken}</p>
-                        <button className="accept-sertificate card-button">Подтверждение сертификата</button>
+                        <button className="accept-sertificate card-button" onClick={() => handleConfirmSert(selectedCertificate.id)}>Подтверждение сертификата</button>
                         <button className="card-button">Изменить</button>
                         <button className="card-button" onClick={handleOpenConfirmDelete}>Удалить</button>
                         <button className="close-modal" onClick={handleCloseModal}>Закрыть</button>
