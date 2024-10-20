@@ -18,6 +18,12 @@ function Achieve() {
         setIsModalOpen(false);
         setSelectedCertificate(null);
     };
+	const handleShareNFT = (certificate) => {
+		const text = `Сертификат ${certificate.title}, токен транзакции: ${certificate.transactionToken}. Ссылка на NFT: https://sepolia.etherscan.io/tx/${certificate.NFT}`;
+		const vkShareUrl = `https://vk.com/share.php?url=https://sepolia.etherscan.io/tx/${certificate.NFT}&title=Мой+NFT&comment=${encodeURIComponent(text)}`;
+		
+		window.open(vkShareUrl, '_blank');
+	};
 	const handleMintNFT = async (id, flag1, flag2, event) => {
 
 		try {
@@ -136,7 +142,8 @@ function Achieve() {
 						
                         <button className="close-modal" onClick={handleCloseModal}>Закрыть</button>
 						<button className="close-modal" onClick={() => handleMintNFT(selectedCertificate.id, selectedCertificate.signatureArbitr, selectedCertificate.signatureCompany)}>Сминтить NFT</button>
-						
+						<button className="close-modal" onClick={() => handleShareNFT(selectedCertificate)}>Поделиться NFT</button>
+
                     </div>
                 </div>
             )}
