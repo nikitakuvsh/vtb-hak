@@ -38,9 +38,9 @@ function CreateSertificate() {
 
             fileInput.onchange = () => {
                 const fileName = fileInput.files[0]?.name || "Файл не выбран";
-                if (fileIndex === '5') {
+                if (fileIndex === '6') {
                     setUploadMessage(`Сертификат "${fileName}" загружен.`);
-                } else if (fileIndex === '4') {
+                } else if (fileIndex === '6') {
                     setMainUploadMessage(`Файл "${fileName}" загружен.`);
                 }
             };
@@ -52,15 +52,44 @@ function CreateSertificate() {
         // Логика отправки основной формы
     };
 
-    const handleSubmitSertificateForm = async (event) => {
-        event.preventDefault();
-        // Логика отправки формы сертификатов
-    };
+	const handleSubmitBothForms = async (event) => {
+		event.preventDefault();
 
-    const handleSubmitBothForms = async (event) => {
-        await handleSubmitMainForm(event);
-        await handleSubmitSertificateForm(event);
-    };
+
+		const formData = new FormData();
+		const certFile = inputRefs.current[6]?.files[0];
+		
+		if (certFile) {
+			formData.append("cert_name", inputRefs.current[0]?.value || ""); 
+			formData.append("comment", inputRefs.current[1]?.value || ""); 
+			formData.append("course_module", inputRefs.current[2]?.value || "");
+			formData.append("reciever_email", inputRefs.current[3]?.value || "");
+			formData.append("sender_job_title", inputRefs.current[4]?.value || "");
+			formData.append("sender_email", inputRefs.current[5]?.value || "");
+			formData.append("arbitrator", inputRefs.current[7]?.value || "");
+			
+			// if (fileInput.files[0]) {
+			formData.append("cert_file", certFile);
+			// }
+			try {
+				const response = await fetch('http://92.53.64.89:8092/create_certificate', {
+					method: 'POST',
+					body: formData,
+				});
+
+				if (response.ok) {
+					setMainUploadMessage("Файл курса и сертификат успешно загружены!");
+				} else {
+					setMainUploadMessage("Ошибка при загрузке файлов.");
+				}
+			} catch (error) {
+				console.error('Ошибка:', error);
+				setMainUploadMessage("Произошла ошибка при загрузке.");
+			}
+		} else {
+			setMainUploadMessage("Файлы не выбраны.");
+		}
+	};
 
     return (
         <div className="create-course-container">
@@ -81,7 +110,7 @@ function CreateSertificate() {
                 <div className="course-content fix-width">
                     <h2 className="course-content__title">Кто выдал</h2>
                     <div className="input-container">
-                        <label className="floating-label" htmlFor="degree-info">Степень, процент прохождения и т.д.</label>
+                        <label className="floating-label" htmlFor="degree-info">Комментарий</label>
                         <input
                             className="form__input"
                             type="text"
@@ -92,7 +121,7 @@ function CreateSertificate() {
                         />
                     </div>
                     <div className="input-container">
-                        <label className="floating-label" htmlFor="module-info">Модуль названия или иное</label>
+                        <label className="floating-label" htmlFor="module-info">Модуль курса</label>
                         <input
                             className="form__input"
                             type="text"
@@ -105,10 +134,10 @@ function CreateSertificate() {
                 </div>
                 <div className="course-content course-content-margin fix-width">
                     <div className="input-container">
-                        <label className="floating-label " htmlFor="participant-name">ФИО участника</label>
+                        <label className="floating-label " htmlFor="participant-name">E-mail сотрудника</label>
                         <input
                             className="form__input"
-                            type="text"
+                            type="email"
                             name="participant-name"
                             id="participant-name"
                             ref={el => inputRefs.current[3] = el}
@@ -116,7 +145,7 @@ function CreateSertificate() {
                         />
                     </div>
                     <div className="input-container">
-                        <label className="floating-label " htmlFor="position-info">Должность того, кто подтверждает</label>
+                        <label className="floating-label " htmlFor="position-info">Должность подтверждающего</label>
                         <input
                             className="form__input"
                             type="text"
@@ -127,10 +156,10 @@ function CreateSertificate() {
                         />
                     </div>
                     <div className="input-container">
-                        <label className="floating-label " htmlFor="issuer-name">ФИО, кто выдал</label>
+                        <label className="floating-label " htmlFor="issuer-name">E-mail компании</label>
                         <input
                             className="form__input"
-                            type="text"
+                            type="email"
                             name="issuer-name"
                             id="issuer-name"
                             ref={el => inputRefs.current[5] = el}
@@ -140,9 +169,13 @@ function CreateSertificate() {
 
                     <div className="input-container">
                         <label className="floating-label">Выбор арбитра</label>
-                        <select className="form__input padding-fix">
-                            <option>Арбитр А</option>
-                        </select>
+						<select
+							className="form__input padding-fix"
+							ref={el => inputRefs.current[7] = el} // хули ты мне реф не добавил то? я же не реактер, чтобы вкуривать что это нужно делать... минус 5 минут(((((
+						>
+							<option value="Арбитр А">Арбитр А</option>
+							<option value="Арбитр Б">Арбитр Б</option>
+						</select>
                     </div>
 
                     <input
@@ -170,31 +203,7 @@ function CreateSertificate() {
                     <button onClick={handleSubmitBothForms} className="feedback-workers-button button-submit auth__button">Отзыв у сотрудника</button>
                 </div>
             </form>
-            <aside className="education__card">
-                <form onSubmit={handleSubmitSertificateForm}>
-                    <div className="education-content">
-                        <img className="education-icon" src={documentIcon} alt="Иконка документа" />
-                        <h2 className="education-card__title">Загрузка фона, фото и т.д.</h2>
-                        <div className="education-buttons">
-                            <input
-                                type="file"
-                                style={{ display: 'none' }}
-                                ref={el => inputRefs.current[7] = el}
-                            />
-                            <button
-                                type="button"
-                                className="add-sertificate education__button button-submit auth__button"
-                                data-file-index="7"
-                                onClick={handleFileSelect}
-                            >
-                                Добавить
-                            </button>
-                            <button className="manage-sertificate education__button button-submit auth__button">Управлять</button>
-                        </div>
-                        {uploadMessage && <p className="upload-message">{uploadMessage}</p>}
-                    </div>
-                </form>
-            </aside>
+            
         </div>
     );
 }
