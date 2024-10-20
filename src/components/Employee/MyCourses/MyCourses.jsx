@@ -33,7 +33,7 @@ function MyCourses() {
 
     const handleShareCourse = () => {
         if (selectedCourse) {
-            const link = `http://localhost:3000/course/${selectedCourse.id}`;
+            const link = `http://localhost:3000/invite/course/${selectedCourse.id}`;
             navigator.clipboard.writeText(link)
                 .then(() => {
                     alert('Ссылка на курс скопирована в буфер обмена!');

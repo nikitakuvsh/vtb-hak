@@ -21,10 +21,18 @@ import MySertificate from './components/Employee/MySertificate/MySertificate';
 import WorkerRole from './components/workerRole/workerRole';
 import Achieve from './components/Worker/Achieve/Achieve';
 import ChoiceEmployee from './components/Worker/ChoiceEmployee';
+import InviteCourse from './components/Employee/MyCourses/InviteCourse';
 
 const App = () => {
   const location = useLocation();
   const { id } = useParams();
+  const {courseId} = useParams();
+
+  const courses = [
+    { id: 1, title: "Курс 1", description: "Описание курса 1" },
+    { id: 2, title: "Курс 2", description: "Описание курса 2" },
+    // Добавьте остальные курсы здесь
+  ];
 
   return (
     <>
@@ -122,6 +130,10 @@ const App = () => {
                 path="choice-employer/:id"
                 element={<AnimatedZoomIn><ChoiceEmployee /></AnimatedZoomIn>} // Страница кошелька для работодателя
               />
+              <Route 
+                path="invite/course/:courseid"
+                element={<AnimatedZoomIn><InviteCourse courses={courses}/></AnimatedZoomIn>} // Страница кошелька для работодателя
+              />
             </Routes>
           </AnimatePresence>
         </div>
@@ -194,6 +206,9 @@ const Title = () => {
   }
   if (location.pathname.startsWith('/choice-employer/')){
     title = 'Компании партнеры';
+  }
+  if (location.pathname.startsWith('/invite/course/')){
+    title = 'Приглашение на курс';
   }
 
   return <MainTitleSection title={title} />;
