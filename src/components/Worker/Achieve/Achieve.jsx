@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import useBackgroundSetter from "../../../useBackgroundSetter";
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
-import './Achieve.css';
+					   
 
 function Achieve() {
     useBackgroundSetter();
@@ -36,11 +36,16 @@ function Achieve() {
 				alert('Подключите кошелек');
 				return 0;
 			}
-			//Врубить когда арбитра добавим
-			// if (!flag1 || !flag2){
-				// alert('Не хватает подписей');
-				// return 0;
-			// }
+			// Врубить когда арбитра добавим
+			if (!flag1 || !flag2){
+				alert('Не хватает подписей');
+				return 0;
+			}
+															
+							
+													 
+				
+	   
 			const response = await fetch('http://92.53.64.89:8092/mint_nft', {
 				method: 'POST',
 				headers: {
