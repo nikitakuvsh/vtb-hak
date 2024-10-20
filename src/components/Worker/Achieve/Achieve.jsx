@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import useBackgroundSetter from "../../../useBackgroundSetter";
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import './Achieve.css';
 
 function Achieve() {
     useBackgroundSetter();

@@ -73,6 +73,10 @@ function Education() {
         setFilter(type); // Устанавливаем фильтр
     };
 
+    const handleDownloadCourse = () => {
+        console.log('donwload');
+    };
+
     // Фильтрация курсов в зависимости от выбранного типа
     const filteredCourses = filter ? courses.filter(course => course.type === filter) : courses;
 
@@ -167,6 +171,7 @@ function Education() {
                                 </>
                             )}
                         </div>
+                        <button className="auth__button" onClick={handleDownloadCourse}>Скачать курс</button>
                         <button className="modal-close" onClick={closeModal}>Закрыть</button>
                     </div>
                 </div>
