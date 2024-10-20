@@ -21,12 +21,9 @@ function Education() {
 
     // Обработка клика по карточке курса
     const handleCardClick = (course) => {
-        if (course.type === "required" || course.type === "not-required") {
-            setSelectedCourse(course);
-            setModalOpen(true);
-        } else {
-            console.log("Карточка нажата:", course);
-        }
+        setSelectedCourse(course);
+        setModalOpen(true);
+        
     };
 
     // Закрытие модального окна
@@ -89,7 +86,7 @@ function Education() {
                 <div className="cards__inner">
                     <button className="education-button auth__button">Просмотр всех курсов обязательного обучения</button>
                     <button className="education-button auth__button">Просмотр всех курсов дополнительного обучения</button>
-                    <button className="education-button auth__button">Создать собственный курс</button>
+                    <button onClick={() => window.location.href = `/create-course/${localStorage.getItem('userId')}`} className="education-button auth__button">Создать собственный курс</button>
                     {courses.map(course => (
                         <div
                             key={course.id}
@@ -115,9 +112,20 @@ function Education() {
                     <div className="modal-content">
                         <h2>{selectedCourse?.title}</h2>
                         <div className="modal-buttons-education">
-                            <button onClick={closeModal} className="auth__button">Написать создателю</button>
-                            <button onClick={closeModal} className="auth__button">Оставить отзыв</button>
-                            <button onClick={closeModal} className="auth__button">Достижения/прогресс</button>
+                            {selectedCourse?.type !== 'my' &&(
+                                <>
+                                <button onClick={closeModal} className="auth__button">Написать создателю</button>
+                                <button onClick={closeModal} className="auth__button">Оставить отзыв</button>
+                                <button onClick={closeModal} className="auth__button">Достижения/прогресс</button>
+                                </>
+                            )}
+                            {selectedCourse?.type == 'my' &&(
+                                <>
+                                <button onClick={closeModal} className="auth__button">Связаться с учениками</button>
+                                <button onClick={closeModal} className="auth__button">Заблокировать ученика</button>
+                                <button onClick={closeModal} className="auth__button">Добавить сертификат</button>
+                                </>
+                            )}
                         </div>
                         <button className="modal-close" onClick={closeModal}>Закрыть</button>
                     </div>
