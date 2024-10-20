@@ -13,7 +13,7 @@ function ManageWorker() {
     const [workers, setWorkers] = useState([]);
 
 	useEffect(() => {
-	fetch('http://92.53.64.89:8092/workers_in_company_list/'+localStorage.getItem('userId'))
+	fetch(process.env.REACT_APP_BACK_API+'workers_in_company_list/'+localStorage.getItem('userId'))
 			.then(response => response.json())
 			.then(data => setWorkers(data.workers));
 	}, []);

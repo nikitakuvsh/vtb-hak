@@ -88,7 +88,7 @@ function RegisterFormEmployee() {
 			formData.append("profile_image", fileInputRef.current.files[0]);
 		}
         try {
-            const response = await fetch('http://92.53.64.89:8092/register_worker', {
+            const response = await fetch(process.env.REACT_APP_BACK_API+'register_worker', {
                 method: 'POST',
                 body: formData, 
             });

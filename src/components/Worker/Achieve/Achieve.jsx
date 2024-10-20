@@ -46,7 +46,7 @@ function Achieve() {
 													 
 				
 	   
-			const response = await fetch('http://92.53.64.89:8092/mint_nft', {
+			const response = await fetch(process.env.REACT_APP_BACK_API+'mint_nft', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -76,7 +76,7 @@ function Achieve() {
 	useEffect(() => {
 		const postData = async () => {
 			try {
-				const response = await fetch('http://92.53.64.89:8092/get_user_cretificates', {
+				const response = await fetch(process.env.REACT_APP_BACK_API+'get_user_cretificates', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',

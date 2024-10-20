@@ -27,7 +27,7 @@ function Profile() {
 			const userId = localStorage.getItem('userId');
 
 			try {
-				const response = await fetch(`http://92.53.64.89:8092/upload_profile_image/${userId}`, {
+				const response = await fetch(process.env.REACT_APP_BACK_API+`upload_profile_image/${userId}`, {
 					method: 'POST',
 					body: formData
 				});
@@ -78,7 +78,7 @@ function Profile() {
 		};
 
 		try {
-			const response = await fetch('http://92.53.64.89:8092/update_user_info', {
+			const response = await fetch(process.env.REACT_APP_BACK_API+'update_user_info', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -123,7 +123,7 @@ function Profile() {
 		const fetchProfileImage = async () => {
 			try {
 				const userId = localStorage.getItem('userId');
-				const response = await fetch(`http://92.53.64.89:8092/get_profile_image/${userId}`);
+				const response = await fetch(process.env.REACT_APP_BACK_API+`get_profile_image/${userId}`);
 				
 				if (response.ok) {
 					const imageUrl = response.url;
@@ -142,7 +142,7 @@ function Profile() {
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await fetch('http://92.53.64.89:8092/get_user_id_info', {
+                const response = await fetch(process.env.REACT_APP_BACK_API+'get_user_id_info', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

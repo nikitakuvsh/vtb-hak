@@ -12,7 +12,7 @@ function ChoiceWorker() {
     const [workers, setWorkers] = useState([]);
 
     useEffect(() => {
-	fetch('http://92.53.64.89:8092/workers_list')
+	fetch(process.env.REACT_APP_BACK_API+'workers_list')
 			.then(response => response.json())
 			.then(data => setWorkers(data.workers));
 	}, []);
@@ -43,7 +43,7 @@ function ChoiceWorker() {
 				// alert('Не хватает подписей');
 				// return 0;
 			// }
-			const response = await fetch('http://92.53.64.89:8092/recruit_worker', {
+			const response = await fetch(process.env.REACT_APP_BACK_API+'recruit_worker', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

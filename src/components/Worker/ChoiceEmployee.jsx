@@ -12,7 +12,7 @@ function ChoiceEmployee() {
     const [workers, setWorkers] = useState([]);
 
 	useEffect(() => {
-		fetch('http://92.53.64.89:8092/employers_list')
+		fetch(process.env.REACT_APP_BACK_API+'employers_list')
 			.then(response => response.json())
 			.then(data => setWorkers(data.employers));
 	}, []);

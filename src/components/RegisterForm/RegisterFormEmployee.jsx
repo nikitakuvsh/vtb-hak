@@ -54,7 +54,7 @@ function RegisterFormEmployee() {
 		}
 
         try {
-            const response = await fetch('http://92.53.64.89:8092/register_employer', {
+            const response = await fetch(process.env.REACT_APP_BACK_API+'register_employer', {
                 method: 'POST',
                 body: formData, 
             });

@@ -72,7 +72,7 @@ function CreateCourse() {
 			formData.append("course_creator", localStorage.getItem('userId'));
 
 			try {
-				const response = await fetch('http://92.53.64.89:8092/create_course', {
+				const response = await fetch(process.env.REACT_APP_BACK_API+'create_course', {
 					method: 'POST',
 					body: formData,
 				});

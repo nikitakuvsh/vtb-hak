@@ -72,7 +72,7 @@ function CreateSertificate() {
 			formData.append("cert_file", certFile);
 			// }
 			try {
-				const response = await fetch('http://92.53.64.89:8092/create_certificate', {
+				const response = await fetch(process.env.REACT_APP_BACK_API+'create_certificate', {
 					method: 'POST',
 					body: formData,
 				});

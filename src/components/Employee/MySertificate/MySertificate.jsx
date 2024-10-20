@@ -11,7 +11,7 @@ function MySertificate() {
 	useEffect(() => {
 		const postData = async () => {
 			try {
-				const response = await fetch('http://92.53.64.89:8092/get_company_cretificates', {
+				const response = await fetch(process.env.REACT_APP_BACK_API+'get_company_cretificates', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ function MySertificate() {
 			}
 			console.log(id);
 			
-			const response = await fetch('http://92.53.64.89:8092/confirm_certificate', {
+			const response = await fetch(process.env.REACT_APP_BACK_API+'confirm_certificate', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'

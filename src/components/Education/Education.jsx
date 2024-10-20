@@ -34,7 +34,7 @@ function Education() {
         closeModal();
     };
 	useEffect(() => {
-		fetch('http://92.53.64.89:8092/courses')
+		fetch(process.env.REACT_APP_BACK_API+'courses')
 			.then(response => response.json())
 			.then(data => setCourses(data.courses));
 	}, []);
