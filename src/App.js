@@ -18,6 +18,7 @@ import CreateCourse from './components/Employee/CreateCourse/CreateCourse';
 import CreateSertificate from './components/Employee/CreateSertificate/CreateSertificate';
 import MyCourses from './components/Employee/MyCourses/MyCourses';
 import MySertificate from './components/Employee/MySertificate/MySertificate';
+import WorkerRole from './components/workerRole/workerRole';
 
 const App = () => {
   const location = useLocation();
@@ -107,7 +108,12 @@ const App = () => {
                 path="my-sertificate/:id"
                 element={<AnimatedZoomIn><MySertificate /></AnimatedZoomIn>} // Страница кошелька для работодателя
               />
+              <Route 
+                path="worker-role/:id"
+                element={<AnimatedZoomIn><WorkerRole /></AnimatedZoomIn>} // Страница кошелька для работодателя
+              />
             </Routes>
+            
           </AnimatePresence>
         </div>
       </main>
@@ -169,7 +175,10 @@ const Title = () => {
     title = 'Мои курсы';
   }
   if (location.pathname.startsWith('/my-sertificate/')){
-    title = 'Мои сертификаты';
+    title = 'Выданные сертификаты';
+  }
+  if (location.pathname.startsWith('/worker-role')){
+    title = 'Должность';
   }
 
   return <MainTitleSection title={title} />;

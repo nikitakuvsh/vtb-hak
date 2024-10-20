@@ -97,7 +97,7 @@
     color: white;
 }
 
-.button-kick {
+.button-kick, .button-worker-role {
     background-color: black;
 }
 

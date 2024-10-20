@@ -59,6 +59,7 @@ function ManageWorker() {
                     <div className="worker__card-content">
                         <h2 className="worker__card-title">{selectedWorker.title}</h2>
                         <p className="worker__card-descr">{selectedWorker.description}</p>
+                        <button className="card-button button-worker-role" onClick={() => window.location.href = `/worker-role/${localStorage.getItem('userId')}`}>Должность</button>
                         <button className="card-button">Связаться с сотрудником</button>
                         <button className="card-button">Запросить отзыв</button>
                         <button className="card-button">Достижения</button>

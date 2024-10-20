@@ -61,6 +61,7 @@ function MySertificate() {
                 <div className="worker__card-modal">
                     <div className="worker__card-content">
                         <h2 className="worker__card-title">{selectedCertificate.title}</h2>
+                        <button className="accept-sertificate card-button">Подтверждение сертификата</button>
                         <button className="card-button">Изменить</button>
                         <button className="card-button" onClick={handleOpenConfirmDelete}>Удалить</button> {/* Открываем модальное окно подтверждения */}
                         <button className="close-modal" onClick={handleCloseModal}>Закрыть</button>

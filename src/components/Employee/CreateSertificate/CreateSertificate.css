@@ -23,3 +23,8 @@
 .padding-fix {
     padding: 10px 0 10px 30%;
 }
+
+.change-role-button {
+    width: 100%;
+    margin-top: 2%;
+}
