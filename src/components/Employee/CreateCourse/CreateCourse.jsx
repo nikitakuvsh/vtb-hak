@@ -64,6 +64,10 @@ function CreateCourse() {
 		const courseFile = inputRefs.current[4]?.files[0];
 		const certificateFile = inputRefs.current[5]?.files[0];
 
+        // localStorage.setItem('course_name', courseName);
+        // localStorage.setItem('course_description', courseDescription);
+        // localStorage.setItem('course_creater', courseId);
+
 		if (courseFile && certificateFile) {
 			formData.append("course_file", courseFile); 
 			formData.append("certificate_file", certificateFile); 

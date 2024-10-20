@@ -6,20 +6,40 @@ import './MyCourses.css';
 function MyCourses() {
     useBackgroundSetter();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false); // Состояние для модального окна подтверждения
+    const [isConfirmDeleteOpen, setIsConfirmDeleteOpen] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
-    const [courses, setCourses] = useState([
-        {
-            id: 1,
-            title: `Курс 1`,
-            description: `Описание курса 1`
-        },
-        {
-            id: 2,
-            title: `Курс 2`,
-            description: `Описание курса 2`
-        },
-    ]);
+    
+    const [courses, setCourses] = useState(() => {
+        // Получаем данные из localStorage
+        const courseName = localStorage.getItem('course_name');
+        const courseDescription = localStorage.getItem('course_description');
+        const courseId = localStorage.getItem('course_creater');
+
+        // Проверяем, есть ли данные в localStorage, и создаем новый массив
+        const storedCourses = [];
+        if (courseName && courseDescription && courseId) {
+            storedCourses.push({
+                id: courseId, // Используем courseId как уникальный идентификатор
+                title: courseName,
+                description: courseDescription
+            });
+        }
+
+        // Возвращаем массив, включающий существующие курсы и новые курсы из localStorage
+        return [
+            ...storedCourses,
+            {
+                id: 1,
+                title: `Курс 1`,
+                description: `Описание курса 1`
+            },
+            {
+                id: 2,
+                title: `Курс 2`,
+                description: `Описание курса 2`
+            },
+        ];
+    });
 
     const handleCardClick = (course) => {
         setSelectedCourse(course);
@@ -45,17 +65,17 @@ function MyCourses() {
     };
 
     const handleOpenConfirmDelete = () => {
-        setIsConfirmDeleteOpen(true); // Открываем модальное окно подтверждения
+        setIsConfirmDeleteOpen(true);
     };
 
     const handleCloseConfirmDelete = () => {
-        setIsConfirmDeleteOpen(false); // Закрываем модальное окно подтверждения
+        setIsConfirmDeleteOpen(false);
     };
 
     const handleDeleteCourse = () => {
         setCourses(prevCourses => prevCourses.filter(course => course.id !== selectedCourse.id));
-        handleCloseModal(); // Закрываем основное модальное окно после удаления
-        handleCloseConfirmDelete(); // Закрываем окно подтверждения
+        handleCloseModal();
+        handleCloseConfirmDelete();
     };
 
     return (
@@ -81,13 +101,12 @@ function MyCourses() {
                         <p className="worker__card-descr">{selectedCourse.description}</p>
                         <button className="card-button" onClick={handleShareCourse}>Поделиться курсом</button>
                         <button className="card-button">Изменить</button>
-                        <button className="card-button" onClick={handleOpenConfirmDelete}>Удалить</button> {/* Открываем модальное окно подтверждения */}
+                        <button className="card-button" onClick={handleOpenConfirmDelete}>Удалить</button>
                         <button className="close-modal" onClick={handleCloseModal}>Закрыть</button>
                     </div>
                 </div>
             )}
 
-            {/* Модальное окно подтверждения удаления */}
             {isConfirmDeleteOpen && (
                 <div className="confirm-delete-modal">
                     <div className="confirm-delete-content">

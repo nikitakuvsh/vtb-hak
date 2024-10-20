@@ -69,6 +69,7 @@ function Header() {
   const employerNavItems = [
     { path: `/choice-worker/${userId}`, label: 'Выбор сотрудников' },
     { path: `/manage-worker/${userId}`, label: 'Управление сотрудниками' },
+    { path: `/education/${userId}`, label: 'Обучение' },
     {label: 'Кошелёк', onClick: handleConnectWallet },
   ];
 
