@@ -72,6 +72,8 @@ function Profile() {
 				'company-email': inputRefs.current[4]?.value || null,
 				'company-phone': inputRefs.current[5]?.value || null,
 				'company-address': inputRefs.current[6]?.value || null,
+				'company-description': inputRefs.current[7]?.value || null,
+				
 			})
 		};
 
@@ -147,13 +149,14 @@ function Profile() {
                     },
                     body: JSON.stringify({
                         id: localStorage.getItem('userId'),
-                        account_type: isEmployer ? 'Employer' : 'Worker'
+                        account_type: localStorage.getItem('userRole')
                     }),
                 });
 
                 if (response.ok) {
                     const data = await response.json();
                     inputRefs.current.forEach((input, index) => {
+						console.log(data['user_info']);
                         if (data['user_info'][input.name] !== null && data['user_info'][input.name] !== undefined) {
                             input.value = data['user_info'][input.name];
 
@@ -246,37 +249,14 @@ function Profile() {
                     )}
                     {isEmployer && ( 
                         <>
-                            <div className='input-container'>
-                                <label htmlFor='company-name' className='floating-label'>Имя компании</label>
-                                <input className='form__input' type='text' id='company-name' name='company-name' ref={el => inputRefs.current[3] = el}></input>
-                            </div>
-                            <div className='input-container'>
-                                <label htmlFor='company-email' className='floating-label'>Электронная почта компании</label>
-                                <input className='form__input' type='email' id='company-email' name='company-email' ref={el => inputRefs.current[4] = el}></input>
-                            </div>
-                            <div className='input-container'>
-                                <label htmlFor='company-phone' className='floating-label'>Телефонный номер компании</label>
-                                <input className='form__input' type='text' id='company-phone' name='company-phone' ref={el => inputRefs.current[5] = el}></input>
-                            </div>
+
                             <div className='input-container'>
                                 <label htmlFor='company-address' className='floating-label'>Адрес компании</label>
                                 <input className='form__input' type='text' id='company-address' name='company-address' ref={el => inputRefs.current[6] = el}></input>
                             </div>
                             <div className='input-container'>
-                                <label htmlFor='foundation-date' className='floating-label'>Дата основания</label>
-                                <input className='form__input' type='text' id='foundation-date' name='foundation-date' ref={el => inputRefs.current[7] = el}></input>
-                            </div>
-                            <div className='input-container'>
-                                <label htmlFor='director' className='floating-label'>Руководитель</label>
-                                <input className='form__input' type='text' id='director' name='director' ref={el => inputRefs.current[8] = el}></input>
-                            </div>
-                            <div className='input-container'>
-                                <label htmlFor='directions' className='floating-label'>Направления</label>
-                                <input className='form__input' type='text' id='directions' name='directions' ref={el => inputRefs.current[9] = el}></input>
-                            </div>
-                            <div className='input-container'>
-                                <label htmlFor='organization-form' className='floating-label'>Форма организации</label>
-                                <input className='form__input' type='text' id='organization-form' name='organization-form' ref={el => inputRefs.current[10] = el}></input>
+                                <label htmlFor='company-description' className='floating-label'>Описание компании</label>
+                                <input className='form__input' type='text' id='company-description' name='company-description' ref={el => inputRefs.current[7] = el}></input>
                             </div>
                         </>
                     )}
