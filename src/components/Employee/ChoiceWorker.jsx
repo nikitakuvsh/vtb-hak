@@ -12,8 +12,8 @@ function ChoiceWorker() {
     const workers = [
         {
             id: 1,
-            title: `ФИО 2`,
-            description: `Описание 2`
+            title: `ФИО 1`,
+            description: `Описание 1`
         },
         {
             id: 2,

@@ -1,0 +1,25 @@
+.create-sertificate__buttons-container {
+    display: flex;
+    gap: 2%;
+    width: 100%;
+    position: absolute;
+}
+
+.create-sertificate__buttons-container .button-submit {
+    width: 130%;
+    min-height: 5%;
+    margin-top: 5%;
+    margin-bottom: 10vh;
+}
+
+.course-content-margin {
+    margin-top: 5vh;
+}
+
+.fix-width {
+    width: 100%;
+}
+
+.padding-fix {
+    padding: 10px 0 10px 30%;
+}
