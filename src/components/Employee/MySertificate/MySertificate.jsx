@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import useBackgroundSetter from "../../../useBackgroundSetter";
-import workerIconCard from '../../../img/icons/worker-icon-card.svg'; // Убедитесь, что этот путь правильный
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa'; // Импортируем иконки
 
 function MySertificate() {
     useBackgroundSetter();
@@ -11,10 +11,22 @@ function MySertificate() {
         {
             id: 1,
             title: `Сертификат 1`,
+            description: `Описание 1`,
+            issuedPerson: `Иванову Кириллу`,
+            comment: `За прохождение ДПО,`,
+            signatureArbitr: false,
+            signatureCompany: false,
+            transactionToken: '0000000000000e0000000000000'
         },
         {
             id: 2,
             title: `Сертификат 2`,
+            description: `Описание 2`,
+            issuedPerson: `Маргарите Романовне`,
+            comment: `За проведение ДПО`,
+            signatureArbitr: true,
+            signatureCompany: true,
+            transactionToken: '10213123hasj21231230088eeeee'
         },
     ]);
 
@@ -61,15 +73,32 @@ function MySertificate() {
                 <div className="worker__card-modal">
                     <div className="worker__card-content">
                         <h2 className="worker__card-title">{selectedCertificate.title}</h2>
+                        <p className="worker__card-description">{selectedCertificate.description}</p>
+                        <p className="worker__card-description">Выдан {selectedCertificate.issuedPerson}</p>
+                        <p className="worker__card-description">Комментарий {selectedCertificate.comment}</p>
+                        <p className="worker__card-description">
+                            Подпись арбитра {selectedCertificate.signatureArbitr ? (
+                                <FaCheckCircle style={{ color: 'green', marginLeft: '8px' }} />
+                            ) : (
+                                <FaTimesCircle style={{ color: 'red', marginLeft: '8px' }} />
+                            )}
+                        </p>
+                        <p className="worker__card-description">
+                            Подпись компании {selectedCertificate.signatureCompany ? (
+                                <FaCheckCircle style={{ color: 'green', marginLeft: '8px' }} />
+                            ) : (
+                                <FaTimesCircle style={{ color: 'red', marginLeft: '8px' }} />
+                            )}
+                        </p>
+                        <p className="worker__card-description">Токен транзакции {selectedCertificate.transactionToken}</p>
                         <button className="accept-sertificate card-button">Подтверждение сертификата</button>
                         <button className="card-button">Изменить</button>
-                        <button className="card-button" onClick={handleOpenConfirmDelete}>Удалить</button> {/* Открываем модальное окно подтверждения */}
+                        <button className="card-button" onClick={handleOpenConfirmDelete}>Удалить</button>
                         <button className="close-modal" onClick={handleCloseModal}>Закрыть</button>
                     </div>
                 </div>
             )}
 
-            {/* Модальное окно подтверждения удаления */}
             {isConfirmDeleteOpen && (
                 <div className="confirm-delete-modal">
                     <div className="confirm-delete-content">
