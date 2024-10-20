@@ -20,6 +20,7 @@ import MyCourses from './components/Employee/MyCourses/MyCourses';
 import MySertificate from './components/Employee/MySertificate/MySertificate';
 import WorkerRole from './components/workerRole/workerRole';
 import Achieve from './components/Worker/Achieve/Achieve';
+import ChoiceEmployee from './components/Worker/ChoiceEmployee';
 
 const App = () => {
   const location = useLocation();
@@ -117,6 +118,10 @@ const App = () => {
                 path="achieve/:id"
                 element={<AnimatedZoomIn><Achieve /></AnimatedZoomIn>} // Страница кошелька для работодателя
               />
+              <Route 
+                path="choice-employer/:id"
+                element={<AnimatedZoomIn><ChoiceEmployee /></AnimatedZoomIn>} // Страница кошелька для работодателя
+              />
             </Routes>
           </AnimatePresence>
         </div>
@@ -152,7 +157,7 @@ const Title = () => {
   }
 
   if (location.pathname.startsWith('/choice-worker')) {
-    title = 'Выбор сотрудников';
+    title = 'Подбор персонала';
   }
   if (location.pathname.startsWith('/manage-worker')) {
     title = 'Управление сотрудниками';
@@ -186,6 +191,9 @@ const Title = () => {
   }
   if (location.pathname.startsWith('/achieve')){
     title = 'Достижения';
+  }
+  if (location.pathname.startsWith('/choice-employer/')){
+    title = 'Компании партнеры';
   }
 
   return <MainTitleSection title={title} />;

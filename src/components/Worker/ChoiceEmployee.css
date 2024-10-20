@@ -1,0 +1,40 @@
+.contact-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 1000; /* Убедитесь, что модальное окно поверх других элементов */
+    width: 400px; /* Ширина модального окна */
+    max-width: 90%; /* Ограничение ширины для мобильных устройств */
+    text-align: center; /* Центрирование текста внутри окна */
+}
+
+.contact-modal h2 {
+    margin: 0 0 15px;
+    font-size: 20px; /* Размер заголовка */
+    color: #333; /* Цвет заголовка */
+}
+
+.contact-modal p {
+    margin: 0 0 20px;
+    font-size: 16px;
+    color: #666;
+}
+
+.contact-modal .close-modal {
+    background-color: #2148C0;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.contact-modal .close-modal:hover {
+    background-color: #1a3f9a;
+}

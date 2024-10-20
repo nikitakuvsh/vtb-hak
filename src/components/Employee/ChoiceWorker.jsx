@@ -7,6 +7,7 @@ function ChoiceWorker() {
     useBackgroundSetter();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
     const [selectedWorker, setSelectedWorker] = useState(null);
     const [workers, setWorkers] = useState([]);
 
@@ -18,11 +19,11 @@ function ChoiceWorker() {
             const response = await new Promise(resolve => {
                 setTimeout(() => {
                     resolve([
-                        { id: 1, title: 'ФИО 1', description: 'Описание 1' },
-                        { id: 2, title: 'ФИО 2', description: 'Описание 2' },
-                        { id: 3, title: 'ФИО 3', description: 'Описание 3' }
+                        { id: 1, title: 'ФИО 1', description: 'Описание 1', contact: 'contact1@example.com' },
+                        { id: 2, title: 'ФИО 2', description: 'Описание 2', contact: 'contact2@example.com' },
+                        { id: 3, title: 'ФИО 3', description: 'Описание 3', contact: 'contact3@example.com' }
                     ]);
-                }, 1000); // Тут типа сервер ответил через секунду сет таймаунт можно убрать
+                }, 1000); // Тут типа сервер ответил через секунду, сет таймаут можно убрать
             });
             setWorkers(response);
         };
@@ -35,8 +36,17 @@ function ChoiceWorker() {
         setIsModalOpen(true);
     };
 
+    const handleContactClick = () => {
+        setIsContactModalOpen(true);
+    };
+
     const handleCloseModal = () => {
         setIsModalOpen(false);
+        setSelectedWorker(null);
+    };
+
+    const handleCloseContactModal = () => {
+        setIsContactModalOpen(false);
         setSelectedWorker(null);
     };
 
@@ -67,9 +77,22 @@ function ChoiceWorker() {
                     <div className="worker__card-content">
                         <h2 className="worker__card-title">{selectedWorker.title}</h2>
                         <p className="worker__card-descr">{selectedWorker.description}</p>
-                        <button className="card-button">Обратная связь</button>
+                        <button className="card-button" onClick={handleContactClick}>Связаться с сотрудником</button>
                         <button className="card-button">Пригласить</button>
                         <button className="close-modal" onClick={handleCloseModal}>Закрыть</button>
+                    </div>
+                </div>
+            )}
+
+            {isContactModalOpen && selectedWorker && (
+                <div className="worker__card-modal">
+                    <div className="worker__card--image-container">
+                        <img className="worker__card-image" src={workerIconCard} alt="Логотип компании" />
+                    </div>
+                    <div className="worker__card-content">
+                        <h2 className="worker__card-title">Контактные данные сотрудника</h2>
+                        <p className="worker__card-descr">Email: {selectedWorker.contact}</p>
+                        <button className="close-modal" onClick={handleCloseContactModal}>Закрыть</button>
                     </div>
                 </div>
             )}

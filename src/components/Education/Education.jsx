@@ -18,12 +18,12 @@ function Education() {
 
     const [isModalOpen, setModalOpen] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
+    const [filter, setFilter] = useState(null); // Состояние для фильтрации
 
     // Обработка клика по карточке курса
     const handleCardClick = (course) => {
         setSelectedCourse(course);
         setModalOpen(true);
-        
     };
 
     // Закрытие модального окна
@@ -67,68 +67,70 @@ function Education() {
         closeModal();
     };
 
+    const handleFilterCourses = (type) => {
+        setFilter(type); // Устанавливаем фильтр
+    };
+
+    // Фильтрация курсов в зависимости от выбранного типа
+    const filteredCourses = filter ? courses.filter(course => course.type === filter) : courses;
+
     return (
         <>
             {showEmployer ? (
-                <>
-                    <div className="education-container">
-                        <div className="education__card">
-                            <div className="education-content">
-                                <img className="education-icon" src={documentIcon} alt="Иконка документа" />
-                                <h2 className="education-card__title">Загрузить курс</h2>
-                                <div className="education-buttons">
-                                    <button
-                                        className="create-course education__button button-submit auth__button"
-                                        onClick={() => window.location.href = `/create-course/${localStorage.getItem('userId')}`}
-                                    >
-                                        Создать курс
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="education__card">
-                            <div className="education-content">
-                                <img className="education-icon" src={documentIcon} alt="Иконка документа" />
-                                <h2 className="education-card__title">Мои курсы</h2>
-                                <div className="education-buttons">
-                                    <button className="open-courses education__button button-submit auth__button" onClick={() => window.location.href = `/my-courses/${localStorage.getItem('userId')}`}>Открыть</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="education__card">
-                            <div className="education-content">
-                                <img className="education-icon" src={documentIcon} alt="Иконка документа" />
-                                <h2 className="education-card__title">Сертификаты</h2>
-                                <div className="education-buttons">
-                                    <button className="add-sertificate education__button button-submit auth__button" onClick={() => window.location.href = `/create-sertificate/${localStorage.getItem('userId')}`}>Добавить</button>
-                                    <button className="manage-sertificate education__button button-submit auth__button" onClick={() => window.location.href = `/my-sertificate/${localStorage.getItem('userId')}`}>Управлять</button>
-                                </div>
+                <div className="education-container">
+                    <div className="education__card">
+                        <div className="education-content">
+                            <img className="education-icon" src={documentIcon} alt="Иконка документа" />
+                            <h2 className="education-card__title">Загрузить курс</h2>
+                            <div className="education-buttons">
+                                <button
+                                    className="create-course education__button button-submit auth__button"
+                                    onClick={() => window.location.href = `/create-course/${localStorage.getItem('userId')}`}
+                                >
+                                    Создать курс
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    {/* <div className="education__card progress-worker">
-                        <h2 className="education-card__title">Прогресс сотрудников</h2>
-                        <div className="progress-worker__buttons education-buttons">
-                            <button className="check-progress progress__button button-submit auth__button">Посмотреть</button>
-                            <button className="send-message progress__button button-submit auth__button">Отправить сообщение</button>
+                    <div className="education__card">
+                        <div className="education-content">
+                            <img className="education-icon" src={documentIcon} alt="Иконка документа" />
+                            <h2 className="education-card__title">Мои курсы</h2>
+                            <div className="education-buttons">
+                                <button className="open-courses education__button button-submit auth__button" onClick={() => window.location.href = `/my-courses/${localStorage.getItem('userId')}`}>Открыть</button>
+                            </div>
                         </div>
-                    </div> */}
-                </>
+                    </div>
+
+                    <div className="education__card">
+                        <div className="education-content">
+                            <img className="education-icon" src={documentIcon} alt="Иконка документа" />
+                            <h2 className="education-card__title">Сертификаты</h2>
+                            <div className="education-buttons">
+                                <button className="add-sertificate education__button button-submit auth__button" onClick={() => window.location.href = `/create-sertificate/${localStorage.getItem('userId')}`}>Добавить</button>
+                                <button className="manage-sertificate education__button button-submit auth__button" onClick={() => window.location.href = `/my-sertificate/${localStorage.getItem('userId')}`}>Управлять</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             ) : (
                 <div className="cards__inner">
-                    <button className="education-button auth__button">Просмотр всех курсов обязательного обучения</button>
-                    <button className="education-button auth__button">Просмотр всех курсов дополнительного обучения</button>
-                    <button onClick={() => window.location.href = `/create-course/${localStorage.getItem('userId')}`} className="education-button auth__button">Создать собственный курс</button>
-                    {courses.map(course => (
+                    <button className="education-button auth__button" onClick={() => handleFilterCourses('required')}>
+                        Просмотр всех курсов обязательного обучения
+                    </button>
+                    <button className="education-button auth__button" onClick={() => handleFilterCourses('not-required')}>
+                        Просмотр всех курсов дополнительного обучения
+                    </button>
+                    <button onClick={() => window.location.href = `/create-course/${localStorage.getItem('userId')}`} className="education-button auth__button">
+                        Создать собственный курс
+                    </button>
+                    {filteredCourses.map(course => (
                         <div
                             key={course.id}
                             className="worker__card"
                             onClick={() => handleCardClick(course)}
                             data-id={course.id}
-                            type = {course.type}
                         >
                             <div className="worker__card--image-container">
                                 <img className="worker__card-image" src={workerIconCard} alt="Иконка курса" />
@@ -147,20 +149,19 @@ function Education() {
                     <div className="modal-content">
                         <h2>{selectedCourse?.title}</h2>
                         <div className="modal-buttons-education">
-                            {selectedCourse?.type !== 'my' &&(
+                            {selectedCourse?.type !== 'my' && (
                                 <>
-                               <button onClick={handleSendMessage} className="auth__button">Написать создателю</button>
-                                <button onClick={handleLeaveReview} className="auth__button">Оставить отзыв</button>
-                                <button onClick={handleViewAchievements} className="auth__button">Достижения/прогресс</button>
-                                <button onClick={handleCompleteCourse} className="auth__button">Завершить курс</button>
-                                <button onClick={closeModal} className="auth__button">Закрыть</button>
+                                    <button onClick={handleSendMessage} className="auth__button">Написать создателю</button>
+                                    <button onClick={handleLeaveReview} className="auth__button">Оставить отзыв</button>
+                                    <button onClick={handleViewAchievements} className="auth__button">Достижения/прогресс</button>
+                                    <button onClick={handleCompleteCourse} className="auth__button">Завершить курс</button>
                                 </>
                             )}
-                            {selectedCourse?.type == 'my' &&(
+                            {selectedCourse?.type === 'my' && (
                                 <>
-                                <button onClick={handleContactStudents} className="auth__button">Связаться с учениками</button>
-                                <button onClick={handleBlockStudent} className="auth__button">Заблокировать ученика</button>
-                                <button onClick={handleAddCertificate} className="auth__button">Добавить сертификат</button>
+                                    <button onClick={handleContactStudents} className="auth__button">Связаться с учениками</button>
+                                    <button onClick={handleBlockStudent} className="auth__button">Заблокировать ученика</button>
+                                    <button onClick={handleAddCertificate} className="auth__button">Добавить сертификат</button>
                                 </>
                             )}
                         </div>
