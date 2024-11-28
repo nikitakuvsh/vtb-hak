@@ -3,7 +3,6 @@ import { useParams, useLocation } from 'react-router-dom';
 import './Profile.css';
 import useBackgroundSetter from '../../useBackgroundSetter';
 import userIcon from '../../img/icons/header-default-user-icon.png';
-import { ReactComponent as CheckIcon } from '../../img/icons/check-icon.svg';
 
 function Profile() {
     useBackgroundSetter();

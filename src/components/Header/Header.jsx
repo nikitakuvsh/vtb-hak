@@ -45,43 +45,17 @@ function Header() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-  // Функ для подключения лисы, если переделаем на него - здесь блять, здесь!
-  const handleConnectWallet = async () => {
-    if (window.ethereum) {
-      try {
-	const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      const userAddress = accounts[0];
-
-		localStorage.setItem('userWalletAddress', userAddress);
-
-        alert('MetaMask подключен!');
-      } catch (error) {
-        console.error('Ошибка при подключении MetaMask:', error);
-        alert('Ошибка при подключении MetaMask.');
-      }
-    } else {
-      alert('MetaMask не найден. Пожалуйста, установите MetaMask.');
-    }
-  };
 
   const workerNavItems = [
     { path: `/choice-employer/${userId}`, label: 'Выбор работодателей' },
-    { path: `/my-work/${userId}`, label: 'Моя работа' },
-    {label: 'Кошелёк', onClick: handleConnectWallet },
   ];
 
   const employerNavItems = [
     { path: `/choice-worker/${userId}`, label: 'Выбор сотрудников' },
-    { path: `/manage-worker/${userId}`, label: 'Управление сотрудниками' },
-    { path: `/education/${userId}`, label: 'Обучение' },
-    {label: 'Кошелёк', onClick: handleConnectWallet },
   ];
 
   const navItems = userRole === 'Worker' ? workerNavItems : employerNavItems;
-
   const profilePath = userRole === 'Employer' ? `/company-profile/${userId}` : `/profile/${userId}`;
-
-  
 
   return (
     <div className="header__content">
