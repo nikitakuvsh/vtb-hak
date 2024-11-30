@@ -56,16 +56,23 @@
   }
 
   .worker--suitable {
-    background-color: green;
-  }
+    background-color: #a8d5ba; /* Мягкий зеленый пастельный цвет */
+    color: #155724; /* Темно-зеленый текст для контраста */
+    border: 1px solid #7bc47f; /* Чуть более насыщенный зеленый для границы */
+}
 
-  .worker--average {
-    background: orange;
-  }
+.worker--average {
+    background-color: #fbd4b4;
+    color: #856404;
+    border: 1px solid #f5a87c;
+}
 
-  .worker--unsuitable {
-    background-color: red;
-  }
+.worker--unsuitable {
+    background-color: #f8bcb4;
+    color: #721c24;
+    border: 1px solid #f5978d;
+}
+ 
   
   .worker-resume-block:hover {
     transform: translateY(-0.5rem);
