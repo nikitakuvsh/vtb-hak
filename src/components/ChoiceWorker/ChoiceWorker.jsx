@@ -1,12 +1,26 @@
 import React, { useState } from "react";
 import useBackgroundSetter from "../../useBackgroundSetter";
 import defaultWorkerIcon from '../../img/icons/header-default-user-icon.png';
+import ChoiceModalWorker from "./ChoiceWorkerModal";
 import './ChoiceWorker.css';
 
 function ChoiceWorker() {
     useBackgroundSetter();
 
     const [searchTerm, setSearchTerm] = useState("");
+    const [selectedWorker, setSelectedWorker] = useState(null); // Для хранения выбранного работника
+    const [isModalOpen, setModalOpen] = useState(false); // Для управления состоянием модального окна
+
+    const openModal = (worker) => {
+        setSelectedWorker(worker); // Устанавливаем выбранного работника
+        setModalOpen(true); // Открываем модальное окно
+    };
+    
+
+    const closeModal = () => {
+        setSelectedWorker(null); // Убираем выбранного работника
+        setModalOpen(false); // Закрываем модальное окно
+    }
 
     // Список работников
     const workers = [
@@ -99,6 +113,7 @@ function ChoiceWorker() {
                         <div
                             key={worker.id}
                             className={`worker-resume-block`}
+                            onClick={() => openModal(worker)}
                         >
                             <div className={`worker-resume-block__points ${getClassBySimilarity(worker.similarity)}`}>
                                 <p className="worker-resume-block__points-text">{getTextBySimilarity(worker.similarity)}</p>
@@ -115,15 +130,18 @@ function ChoiceWorker() {
                                 <p className="worker-resume__description-text">{worker.age} лет</p>
                                 <p className="worker-resume__description-text">{worker.role}</p>
                                 <p className="worker-resume__description-text">{worker.experience} года опыта</p>
-                                <p className="worker-resume__similarity">
-                                    Схожесть: {worker.similarity}%
-                                </p>
                             </div>
                         </div>
                     ))}
                 </div>
             ) : (
                 <p className="choice-worker__no-results">Работники не найдены</p>
+            )}
+            {isModalOpen && (
+                <ChoiceModalWorker
+                    worker={selectedWorker}
+                    onClose={closeModal}
+                />
             )}
         </div>
     );

@@ -176,7 +176,7 @@ function Profile() {
                 const label = input?.previousElementSibling;
                 if (label) {
                     const labelWidth = label.offsetWidth;
-                    const padding = 20;
+                    const padding = 30;
                     input.style.paddingLeft = `${labelWidth + padding}px`;
                 }
             });

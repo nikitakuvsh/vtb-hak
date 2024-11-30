@@ -40,19 +40,19 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     text-align: center;
     position: relative;
+    cursor: pointer;
   }
 
   .worker-resume-block__points {
     position: absolute;
     right: -1rem;
     top: -1rem;
-    width: 50%;
+    width: 10rem;
     border-radius: 20px;
     color: white;
     z-index: 10;
-    height: 15%;
-    text-align: center;
-    align-items: center;
+    height: 3rem;
+    align-content: center;
   }
 
   .worker--suitable {

@@ -1,12 +1,20 @@
 import React, { useState } from "react";
 import useBackgroundSetter from "../../useBackgroundSetter";
 import defaultCompanyIcon from '../../img/icons/company-icon.svg';
+import ChoiceCompanyModal from "./ChoiceCompanyModal";
 import './ChoiceCompany.css';
 
 function ChoiceCompany() {
     useBackgroundSetter();
 
     const [searchTerm, setSearchTerm] = useState("");
+    const [selectedCompany, setSelectedCompany] = useState(null);
+    const [modalOpen, setModalOpen] = useState(false);
+
+    const handleSelectCompany = (company) => {
+        setSelectedCompany(company);
+        setModalOpen(true);
+};
 
     // Список компаний (можно расширить)
     const companies = [
@@ -14,21 +22,21 @@ function ChoiceCompany() {
             id: 1,
             name: "JeekBrains",
             description: "Мы ищем опытных Middle программистов React от 3-х лет опыта работы",
-            salary: "Зп 10.000$",
+            salary: "10.000$",
             icon: defaultCompanyIcon
         },
         {
             id: 2,
             name: "TechCorp",
             description: "Разработка SaaS решений для бизнеса. Требуется Frontend разработчик",
-            salary: "Зп 8.000$",
+            salary: "8.000$",
             icon: defaultCompanyIcon
         },
         {
             id: 3,
             name: "InnoSoft",
             description: "Наша компания разрабатывает AI-приложения. Нужен Senior Backend Developer",
-            salary: "Зп 12.000$",
+            salary: "12.000$",
             icon: defaultCompanyIcon
         }
     ];
@@ -54,7 +62,7 @@ function ChoiceCompany() {
             {/* Список компаний */}
             {filteredCompanies.length > 0 ? (
                 filteredCompanies.map((company) => (
-                    <div key={company.id} className="choice-company__block">
+                    <div key={company.id} className="choice-company__block" onClick={() => handleSelectCompany(company)}>
                         <div className="choice-company__logo">
                             <img
                                 className="choice-company__logo-image"
@@ -71,6 +79,13 @@ function ChoiceCompany() {
                 ))
             ) : (
                 <p className="choice-company__no-results">Компании не найдены</p>
+            )}
+
+            {modalOpen && (
+                <ChoiceCompanyModal
+                    company={selectedCompany}
+                    onClose={() => setModalOpen(false)}
+                />
             )}
         </div>
     );

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import './Header.css';
-import logoTeam from '../../img/logo/logo-team.png';
-import logoIconTeam from '../../img/logo/logo-team-icon.svg';
-import logoCompany from '../../img/logo/loco-company.png';
-import logoCompanyIcon from '../../img/logo/loco-company-icon.png';
+import logoTeam from '../../img/logo/logo-team.svg';
+import logoCompany from '../../img/logo/logo-company.svg';
 import profileIcon from '../../img/icons/header-default-user-icon.png';
 
 function Header() {
@@ -62,8 +60,8 @@ function Header() {
       {showImage && (
         <>
           <div className="header__logo">
-            <img className="header__logo-image" src={isMobile ? logoIconTeam : logoTeam} alt="Логотип команды" />
-            <img className="header__logo-image" src={isMobile ? logoCompanyIcon : logoCompany} alt="Логотип компании" />
+            <img className="header__logo-image" src={logoCompany} alt="Логотип компании"/>
+            <img className="header__logo-image" src={logoTeam} alt="Логотип команды" style={{width: '11.5rem'}} />
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">

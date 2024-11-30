@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, .button-black, ul, li {
   font-family: var(--titleFont);
 }
 
-a, span, p, input, label, button {
+a, span, p, input, label, button, table {
   font-family: var(--textFont);
 }
 
