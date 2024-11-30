@@ -269,6 +269,14 @@ function Profile() {
                                 <label htmlFor='organization-form' className='floating-label'>Форма организации</label>
                                 <input className='form__input' type='text' id='organization-form' name='organization-form' ref={el => inputRefs.current[10] = el}></input>
                             </div>
+                            <div className='input-container'>
+                                <label htmlFor='choice-worker-resume' className='floating-label'>Каких сотрудников ищите?</label>
+                                <input className='form__input' type='text' id='choice-worker-resume' name='choice-worker-resume' ref={el => inputRefs.current[11] = el}></input>
+                            </div>
+                            <div className='input-container'>
+                                <label htmlFor='worker-salary' className='floating-label'>Какая зп будет у сотрудника?</label>
+                                <input className='form__input' type='text' id='worker-salary' name='worker-salary' ref={el => inputRefs.current[12] = el}></input>
+                            </div>
                         </>
                     )}
                     <button className="change-profile-button submit-button auth__button" type="submit">Подтвердить</button>

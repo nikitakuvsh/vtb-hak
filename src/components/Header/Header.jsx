@@ -11,16 +11,16 @@ function Header() {
   const location = useLocation();
   const [isMobile, setIsMobile] = useState(window.matchMedia("(max-width: 1400px)").matches);
   const [userId, setUserId] = useState(null);
-  const [userRole, setUserRole] = useState(null); // Состояние для хранения роли пользователя
+  const [userRole, setUserRole] = useState(null);
 
   useEffect(() => {
     const id = localStorage.getItem('userId');
-    const role = localStorage.getItem('userRole'); // Получаем роль из localStorage
+    const role = localStorage.getItem('userRole');
     if (id) {
       setUserId(id);
     }
     if (role) {
-      setUserRole(role); // Устанавливаем роль в состояние
+      setUserRole(role);
     }
   }, []);
 
@@ -47,7 +47,7 @@ function Header() {
   }, []);
 
   const workerNavItems = [
-    { path: `/choice-employer/${userId}`, label: 'Выбор работодателей' },
+    { path: `/choice-company/${userId}`, label: 'Выбор работодателей' },
   ];
 
   const employerNavItems = [

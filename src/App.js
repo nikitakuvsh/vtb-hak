@@ -9,6 +9,8 @@ import PasswordResetForm from './components/PasswordResetForm/PasswordResetForm'
 import RegisterFormEmployee from './components/RegisterForm/RegisterFormEmployee';
 import RegisterFormWorker from './components/RegisterForm/RegisterFormWorker';
 import Profile from './components/Profle/Profile';
+import ChoiceCompany from './components/ChoiceCompany/ChoiceCompany';
+import ChoiceWorker from './components/ChoiceWorker/ChoiceWorker';
 
 const App = () => {
   const location = useLocation();
@@ -61,6 +63,14 @@ const App = () => {
                 path="/company-profile"
                 element={<AnimatedZoomIn><Profile /></AnimatedZoomIn>} // Страница для работодателя
               />
+              <Route 
+                path="/choice-company"
+                element={<AnimatedZoomIn><ChoiceCompany /></AnimatedZoomIn>} // Страница для работодателя
+              />
+              <Route 
+                path="/choice-worker"
+                element={<AnimatedZoomIn><ChoiceWorker /></AnimatedZoomIn>} // Страница для работодателя
+              />
             </Routes>
           </AnimatePresence>
         </div>
@@ -97,10 +107,10 @@ const Title = () => {
   if (location.pathname.startsWith('/choice-worker')) {
     title = 'Выбор сотрудников';
   }
-  if (location.pathname.startsWith('/profile/') || location.pathname.startsWith('/company-profile/')) {
+  if (location.pathname.startsWith('/profile') || location.pathname.startsWith('/company-profile')) {
     title = 'Мой профиль';
   }
-  if (location.pathname.startsWith('/choice-employer/')){
+  if (location.pathname.startsWith('/choice-company')){
     title = 'Выбор работадателей';
   }
 
