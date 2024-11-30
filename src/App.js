@@ -9,7 +9,6 @@ import PasswordResetForm from './components/PasswordResetForm/PasswordResetForm'
 import RegisterFormEmployee from './components/RegisterForm/RegisterFormEmployee';
 import RegisterFormWorker from './components/RegisterForm/RegisterFormWorker';
 import Profile from './components/Profle/Profile';
-import ChoiceEmployee from './components/Worker/ChoiceEmployee';
 
 const App = () => {
   const location = useLocation();
@@ -61,10 +60,6 @@ const App = () => {
               <Route 
                 path="/company-profile"
                 element={<AnimatedZoomIn><Profile /></AnimatedZoomIn>} // Страница для работодателя
-              />
-              <Route 
-                path="/choice-employer"
-                element={<AnimatedZoomIn><ChoiceEmployee /></AnimatedZoomIn>} // Страница кошелька для работодателя
               />
             </Routes>
           </AnimatePresence>
