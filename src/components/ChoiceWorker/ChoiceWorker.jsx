@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import useBackgroundSetter from "../../useBackgroundSetter";
 import defaultWorkerIcon from '../../img/icons/header-default-user-icon.png';
 import ChoiceModalWorker from "./ChoiceWorkerModal";
+import ParametrsModal from "./ParametrsModal";
 import './ChoiceWorker.css';
 
 function ChoiceWorker() {
@@ -10,6 +11,7 @@ function ChoiceWorker() {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedWorker, setSelectedWorker] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
+    const [isParametrsModalOpen, setParametrsModalOpen] = useState(false);
 
     const openModal = (worker) => {
         setSelectedWorker(worker);
@@ -20,6 +22,10 @@ function ChoiceWorker() {
     const closeModal = () => {
         setSelectedWorker(null);
         setModalOpen(false);
+    }
+
+    const closeModalParametrs = () => {
+        setParametrsModalOpen(false);
     }
 
     const workers = [
@@ -91,6 +97,7 @@ function ChoiceWorker() {
 
     return (
         <div className="choice-worker__container">
+            <button className="choice-worker__parametrs" onClick={() => setParametrsModalOpen(true)}>Параметры</button>
             <div className="choice-worker__search">
                 <input
                     type="text"
@@ -136,6 +143,9 @@ function ChoiceWorker() {
                     worker={selectedWorker}
                     onClose={closeModal}
                 />
+            )}
+            {isParametrsModalOpen && (
+                <ParametrsModal onClose={closeModalParametrs}/>
             )}
         </div>
     );
