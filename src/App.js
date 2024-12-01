@@ -55,7 +55,7 @@ const App = () => {
               />
               <Route 
                 path="/auth-employee" 
-                element={<AnimatedZoomIn><AuthForm /></AnimatedZoomIn>} 
+                element={<AnimatedZoomIn><AuthForm  setAuth={setAuth} /></AnimatedZoomIn>} 
               />
               <Route 
                 path="/reset-password" 
