@@ -3,10 +3,10 @@ import { useParams, useLocation } from 'react-router-dom';
 import './Profile.css';
 import useBackgroundSetter from '../../useBackgroundSetter';
 import userIcon from '../../img/icons/header-default-user-icon.png';
+import axios from "axios";
 
 function Profile() {
     useBackgroundSetter();
-    const { id } = useParams();
     const location = useLocation();
     const inputRefs = useRef([]);
     const fileInputRef = useRef(null);
@@ -15,164 +15,138 @@ function Profile() {
     const [resumeName, setResumeName] = useState("");
     const [isResumeUploaded, setIsResumeUploaded] = useState(false);
     const [isEmployer, setIsEmployer] = useState(false);
+    const token = localStorage.getItem('token');
+    console.log(token);
 
-	const handleImageUpload = async (event) => {
-		const file = event.target.files[0];
-		
-		if (file) {
-			const formData = new FormData();
-			formData.append('image', file);
-			
-			const userId = localStorage.getItem('userId');
-
-			try {
-				const response = await fetch(process.env.REACT_APP_BACK_API+`upload_profile_image/${userId}`, {
-					method: 'POST',
-					body: formData
-				});
-
-				if (response.ok) {
-					const reader = new FileReader();
-					reader.onload = (e) => setProfileImage(e.target.result);
-					reader.readAsDataURL(file);
-					alert('Фото успешно обновлено');
-				} else {
-					alert('Ошибка при обновлении фото');
-				}
-			} catch (error) {
-				console.error('Ошибка при загрузке фото:', error);
-				alert('Произошла ошибка при загрузке фото.');
-			}
-		}
-	};
-
-
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-
-		const userRole = localStorage.getItem('userRole'); 
-		const userId = localStorage.getItem('userId');
-
-		const payload = {
-			id: userId,
-			account_type: userRole,
-			// Collect the form data
-			'edit-name': inputRefs.current[0]?.value || null,
-			'email': inputRefs.current[1]?.value || null,
-			'phone': inputRefs.current[2]?.value || null,
-			...(userRole === 'Worker' && {
-				'birthday': inputRefs.current[3]?.value || null,
-				'education': inputRefs.current[4]?.value || null,
-				'about': inputRefs.current[5]?.value || null,
-				'contacts': inputRefs.current[6]?.value || null,
-			}),
-			...(userRole === 'Employer' && {
-				'company-name': inputRefs.current[3]?.value || null,
-				'company-email': inputRefs.current[4]?.value || null,
-				'company-phone': inputRefs.current[5]?.value || null,
-				'company-address': inputRefs.current[6]?.value || null,
-				'company-description': inputRefs.current[7]?.value || null,
-				
-			})
-		};
-
-		try {
-			const response = await fetch(process.env.REACT_APP_BACK_API+'update_user_info', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify(payload)
-			});
-
-			const result = await response.json();
-			if (response.ok) {
-				alert('Данные успешно обновлены');
-			} else {
-				alert(`Ошибка: ${result.error || 'Не удалось обновить данные'}`);
-			}
-		} catch (error) {
-			console.error('Ошибка при обновлении данных:', error);
-			alert('Произошла ошибка при обновлении данных.');
-		}
-	};
-
-
-    const handleResumeUpload = (event) => {
+    const handleImageUpload = async (event) => {
         const file = event.target.files[0];
-        if (file && file.type === "application/pdf") {
-            setResumeName(file.name);
-            setIsResumeUploaded(true);
-        } else {
-            alert("Пожалуйста, загрузите файл в формате PDF.");
-            setResumeName("");
-            setIsResumeUploaded(false);
+
+        if (!file) {
+            alert('Файл не выбран.');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_BACK_API}/api/worker/upload_profile_image`,
+                formData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const data = response.data;
+            console.log('Фото успешно загружено:', data);
+
+            const reader = new FileReader();
+            reader.onload = (e) => setProfileImage(e.target.result);
+            reader.readAsDataURL(file);
+        } catch (error) {
+            console.error('Ошибка при загрузке изображения:', error);
+            alert(`Ошибка: ${error.response?.data?.error || 'Не удалось загрузить изображение'}`);
+        }
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const userRole = localStorage.getItem('userRole');
+        const userId = localStorage.getItem('userId');
+
+        const payload = {
+            // Collect the form data
+            'name': inputRefs.current[0]?.value || null,
+            'email': inputRefs.current[1]?.value || null,
+            'phone': inputRefs.current[2]?.value || null,
+            ...(userRole === 'Worker' && {
+                'birthday': inputRefs.current[3]?.value || null,
+                'education': inputRefs.current[4]?.value || null,
+                'about': inputRefs.current[5]?.value || null,
+                'contacts': inputRefs.current[6]?.value || null,
+            }),
+            ...(userRole === 'Employer' && {
+                'company-name': inputRefs.current[3]?.value || null,
+                'company-email': inputRefs.current[4]?.value || null,
+                'company-phone': inputRefs.current[5]?.value || null,
+                'company-address': inputRefs.current[6]?.value || null,
+                'company-description': inputRefs.current[7]?.value || null,
+            }),
+        };
+
+        try {
+            const response = await axios.post(
+                `${process.env.REACT_APP_BACK_API}/api/worker/update_info`,
+                payload,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                }
+            );
+
+            alert('Данные успешно обновлены');
+        } catch (error) {
+            console.error('Ошибка при обновлении данных:', error);
+            alert(`Ошибка: ${error.response?.data?.error || 'Не удалось обновить данные'}`);
         }
     };
 
     useEffect(() => {
-        if (id) {
-            localStorage.setItem('userId', id);
-            const userRole = location.pathname.includes('company-profile') ? 'Employer' : 'Worker';
-            localStorage.setItem('userRole', userRole);
-            setIsEmployer(userRole === 'Employer');
-        }
-    }, [id, location.pathname]);
-	useEffect(() => {
-		const fetchProfileImage = async () => {
-			try {
-				const userId = localStorage.getItem('userId');
-				const response = await fetch(process.env.REACT_APP_BACK_API+`get_profile_image/${userId}`);
-				
-				if (response.ok) {
-					const imageUrl = response.url;
-					setProfileImage(imageUrl);
-				} else {
-					setProfileImage(userIcon);
-				}
-			} catch (error) {
-				console.error('Ошибка при загрузке фотографии профиля:', error);
-			}
-		};
+        const fetchProfileImage = async () => {
+            try {
+                const response = await axios.get(
+                    `${process.env.REACT_APP_BACK_API}/api/worker/get_profile_image`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                    }
+                );
+                setProfileImage(response.data.url || userIcon);
+            } catch (error) {
+                console.error('Ошибка при загрузке фотографии профиля:', error);
+                setProfileImage(userIcon);
+            }
+        };
 
-		fetchProfileImage();
-	}, [id]);
+        fetchProfileImage();
+    }, [token]);
 
     useEffect(() => {
         const fetchUserInfo = async () => {
             try {
-                const response = await fetch(process.env.REACT_APP_BACK_API+'get_user_id_info', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        id: localStorage.getItem('userId'),
-                        account_type: localStorage.getItem('userRole')
-                    }),
+                const response = await axios.get(
+                    `${process.env.REACT_APP_BACK_API}/api/worker/get_user_id_info`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                const data = response.data;
+                inputRefs.current.forEach((input, index) => {
+                    if (data.user_info[input.name] !== null && data.user_info[input.name] !== undefined) {
+                        input.value = data.user_info[input.name];
+                    }
                 });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    inputRefs.current.forEach((input, index) => {
-						console.log(data['user_info']);
-                        if (data['user_info'][input.name] !== null && data['user_info'][input.name] !== undefined) {
-                            input.value = data['user_info'][input.name];
-
-                        }
-                    });
-                }
             } catch (error) {
-                console.error('Error fetching user info:', error);
+                console.error('Ошибка при получении информации о пользователе:', error);
             }
         };
 
         fetchUserInfo();
     }, [isEmployer]);
 
+    // Padding adjustment logic remains unchanged
     useEffect(() => {
         const updatePadding = () => {
-            inputRefs.current.forEach(input => {
+            inputRefs.current.forEach((input) => {
                 const label = input?.previousElementSibling;
                 if (label) {
                     const labelWidth = label.offsetWidth;
@@ -190,6 +164,7 @@ function Profile() {
             window.removeEventListener('resize', updatePadding);
         };
     }, []);
+
     return (
         <div className='profile-container'>
             <form onSubmit={handleSubmit}>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation, useParams } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Header from './components/Header/Header';
@@ -11,10 +11,24 @@ import RegisterFormWorker from './components/RegisterForm/RegisterFormWorker';
 import Profile from './components/Profle/Profile';
 import ChoiceCompany from './components/ChoiceCompany/ChoiceCompany';
 import ChoiceWorker from './components/ChoiceWorker/ChoiceWorker';
-
+import axios from 'axios';
 const App = () => {
-  const location = useLocation();
-
+	const location = useLocation();
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem('token');
+        // setShowTokenModal(true); //Если будет время из шин перенеси сюда модалку токена, ты видел как я перенес на логины, так что дерзай
+      }
+      return Promise.reject(error);
+    }
+  );
+	const handleLogout = () => {
+	localStorage.removeItem('token');
+	setAuth(false);
+	};
+	const [isAuthenticated, setAuth] = useState(!!localStorage.getItem('token'));
   return (
     <>
       <header className="header">
@@ -37,7 +51,7 @@ const App = () => {
               />
               <Route 
                 path="/auth-worker" 
-                element={<AnimatedZoomIn><AuthForm /></AnimatedZoomIn>} 
+                element={<AnimatedZoomIn><AuthForm setAuth={setAuth} /></AnimatedZoomIn>} 
               />
               <Route 
                 path="/auth-employee" 
@@ -56,7 +70,7 @@ const App = () => {
                 element={<AnimatedZoomIn><RegisterFormWorker /></AnimatedZoomIn>} 
               />
               <Route 
-                path="/profile/:id"
+                path="/profile/"
                 element={<AnimatedZoomIn><Profile /></AnimatedZoomIn>} // Страница для работника
               />
               <Route 

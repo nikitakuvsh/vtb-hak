@@ -1,17 +1,24 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './AuthForm.css';
-
-function AuthForm() {
-  const location = useLocation();
-  const isEmployeePath = location.pathname === '/auth-employee';
-  const registerPath = isEmployeePath ? '/register-employee' : '/register-worker';
-  const inputRefs = useRef([]);
-
+import axios from "axios";
+import Modal from "../Modal/Modal";
+import { useNavigate } from "react-router-dom";
+function AuthForm({ setAuth }) {
+	const location = useLocation();
+	const isEmployeePath = location.pathname === '/auth-employee';
+	const registerPath = isEmployeePath ? '/register-employee' : '/register-worker';
+	const inputRefs = useRef([]);
+	const [showModal, setShowModal] = useState(false);
+	const [modalMessage, setModalMessage] = useState('');
+	const [modalErrorMessage, setModalErrorMessage] = useState('');
+	const [isError, setIsError] = useState(false);
+	const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     let formData = {};
-
+	let password = '';
+	let email = '';
     if (isEmployeePath) {
       formData = {
         email: inputRefs.current[0]?.value || '',
@@ -19,37 +26,45 @@ function AuthForm() {
         INN: inputRefs.current[2]?.value || '',
         account_type: "Employer",
       };
+	  password=inputRefs.current[1]?.value || '';
+	  email=inputRefs.current[0]?.value || '';
     } else {
       formData = {
         email: inputRefs.current[0]?.value || '',
         password: inputRefs.current[1]?.value || '',
         account_type: "Worker",
       };
+	  password=inputRefs.current[1]?.value || '';
+	  email=inputRefs.current[0]?.value || '';
     }
 
     try {
-      const response = await fetch(process.env.REACT_APP_BACK_API+'login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+		const response = await axios.post(process.env.REACT_APP_BACK_API+'/api/worker/login', {
+               email:email,  password:password
+            });
+			setModalMessage("Авторизация прошла успешно!");
+            setIsError(false);
+            setShowModal(true);
+            localStorage.setItem('token', response.data.access_token);
+            setAuth(true);
 
-      if (response.ok) {
-        const response_json = await response.json();
-        console.log(response_json);
-        if (isEmployeePath) {
-          window.location.href = "/company-profile/" + response_json.user_id;
-        } else {
-          window.location.href = "/profile/" + response_json.user_id;
+            // Показ модального окна перед редиректом
+            setTimeout(() => {
+                setShowModal(false); // Закрываем модальное окно
+                navigate('/profile'); // Выполняем редирект
+            }, 3000); // Ожидание 3 секунд перед закрытием и редиректом
+
+        } catch (error) {
+            setModalMessage("Ошибка входа");
+            setModalErrorMessage(error.response?.data?.error || 'Произошла ошибка');
+            setIsError(true);
+            setShowModal(true);
+            
+            // Закрываем окно через 3 секунды при ошибке, без редиректа
+            setTimeout(() => {
+                setShowModal(false);
+            }, 3000);
         }
-      } else {
-        console.error('Ошибка при отправке формы');
-      }
-    } catch (error) {
-      console.error('Произошла ошибка:', error);
-    }
   };
 
   return (

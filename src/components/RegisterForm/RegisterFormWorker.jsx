@@ -1,14 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import userIcon from '../../img/user.png';
 import './RegisterFormEmployee.css';
-
+import Modal from "../Modal/Modal";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 function RegisterFormEmployee() {
     const inputRefs = useRef([]);
     const [profileImage, setProfileImage] = useState(userIcon);
     const fileInputRef = useRef(null);
     const [ageError, setAgeError] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [showModal, setShowModal] = useState(false);
+	const [isError, setIsError] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+    const [modalErrorMessage, setModalErrorMessage] = useState('');
+    const navigate = useNavigate();
     useEffect(() => {
         const updatePadding = () => {
             inputRefs.current.forEach(input => {
@@ -88,20 +94,24 @@ function RegisterFormEmployee() {
 			formData.append("profile_image", fileInputRef.current.files[0]);
 		}
         try {
-            const response = await fetch(process.env.REACT_APP_BACK_API+'register_worker', {
-                method: 'POST',
-                body: formData, 
+            const response = await axios.post(process.env.REACT_APP_BACK_API+'/api/worker/register', {
+                name:inputRefs.current[0].value, email:inputRefs.current[2].value, phone:inputRefs.current[3].value, password:inputRefs.current[4].value, birthDate:birthDateValue
             });
-
-            if (response.ok) {
-                const response_json = await response.json();
-                console.log(response_json);
-                window.location.href = "/profile/" + response_json.user_id;
-            } else {
-                console.error('Ошибка при отправке формы');
-            }
+            setModalMessage("Регистрация прошла успешно!");
+            setIsError(false);
+            setShowModal(true);
+            setTimeout(() => {
+                setShowModal(false);
+                navigate('/login');
+            }, 3000);
         } catch (error) {
-            console.error('Произошла ошибка:', error);
+            setModalMessage(error.response?.data?.error || "Ошибка регистрации");
+            setIsError(true);
+            setModalErrorMessage(`${error}`);
+            setShowModal(true);
+            setTimeout(() => {
+                setShowModal(false);
+            }, 3000);
         }
 
     };
@@ -118,6 +128,7 @@ function RegisterFormEmployee() {
 
     return (
         <div className="registration-container">
+			{showModal && <Modal message={modalMessage} isError={isError} messageError={modalErrorMessage} onClose={() => setShowModal(false)} />}
             <div className="registration__form form__employee">
                 <form className="registr-form" onSubmit={handleSubmit}>
                     <div className="registration__role">
