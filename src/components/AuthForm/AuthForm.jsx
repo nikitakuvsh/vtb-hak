@@ -34,14 +34,25 @@ function AuthForm({ setAuth }) {
     }
 
     try {
-		const response = await axios.post(process.env.REACT_APP_BACK_API+'/api/worker/login', {
+		if (!isEmployeePath){
+			const response = await axios.post(process.env.REACT_APP_BACK_API+'/api/worker/login', {
                email:email,  password:password
             });
             localStorage.setItem('token', response.data.access_token);
             setAuth(true);
-            navigate('profile');
+            navigate('/profile');
 
-        } catch (error) {
+        
+		}
+		else{
+			const response = await axios.post(process.env.REACT_APP_BACK_API+'/api/employer/login', {
+               email:email,  password:password
+            });
+            localStorage.setItem('token', response.data.access_token);
+            setAuth(true);
+            navigate('/profile');
+		}
+	} catch (error) {
           console.log(error);
         }
   };
