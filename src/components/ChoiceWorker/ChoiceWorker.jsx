@@ -108,7 +108,9 @@ function ChoiceWorker() {
                             onClick={() => openModal(worker)}
                         >
                             <div className={`worker-resume-block__points ${getClassBySimilarity(worker.similarity)}`}>
-                                <p className="worker-resume-block__points-text">{getTextBySimilarity(worker.similarity)} {worker.similarity}</p>
+                                <p className="worker-resume-block__points-text">
+                                    {getTextBySimilarity(worker.similarity)} {Math.round(worker.similarity)}
+                                </p>
                             </div>
                             <div className="worker-resume__icon">
                                 <img
