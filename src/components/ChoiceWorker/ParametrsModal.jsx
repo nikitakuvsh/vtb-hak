@@ -22,17 +22,20 @@ function ParametrsModal({ onClose }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Отправляем данные:", formData);
-        
+
         try {
-            const response = await fetch('https://your-backend-url.com/api/save-data', {
+            const response = await fetch(process.env.REACT_APP_BACK_API+'/api/employer/save_parameters', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`, // Add JWT token from local storage
                 },
                 body: JSON.stringify(formData),
             });
+
             if (response.ok) {
                 console.log('Данные успешно отправлены.');
+                onClose(); // Close the modal after successful save
             } else {
                 console.error('Ошибка при отправке данных.');
             }
