@@ -18,6 +18,17 @@ function Profile() {
     const token = localStorage.getItem('token');
     console.log(token);
 
+    const [isFileUploaded, setIsFileUploaded] = useState(false);
+
+    const handleFileUpload = () => {
+        //
+    };
+
+    const downloadJson = (e) => {
+        e.preventDefault();
+        // Заглушка для скачки ответа
+    };
+
     const handleImageUpload = async (event) => {
         const file = event.target.files[0];
 
@@ -88,7 +99,7 @@ function Profile() {
                     },
                 }
             );
-
+            setIsFileUploaded(true);
             alert('Данные успешно обновлены');
         } catch (error) {
             console.error('Ошибка при обновлении данных:', error);
@@ -171,9 +182,9 @@ function Profile() {
                 <div className='profile__image'>
                     <img className="choice__icon worker__icon registration__icon--fix" src={profileImage} alt="Иконка пользователя" />
                     <h2 className="choice__title">{isEmployer ? 'Работодатель' : 'Сотрудник'}</h2>
-                    <button 
-                        className="choice__change-image" 
-                        type="button" 
+                    <button
+                        className="choice__change-image"
+                        type="button"
                         onClick={() => fileInputRef.current.click()}
                     >
                         Изменить свою фотографию
@@ -199,7 +210,7 @@ function Profile() {
                         <label htmlFor='phone-number' className='floating-label'>Телефонный номер</label>
                         <input className='form__input' type='text' id='phone-number' name='phone-number' ref={el => inputRefs.current[2] = el}></input>
                     </div>
-                    {!isEmployer && ( 
+                    {!isEmployer && (
                         <>
                             <div className='input-container'>
                                 <label htmlFor='birthday' className='floating-label'>Дата рождения</label>
@@ -213,15 +224,48 @@ function Profile() {
                                 <label htmlFor='about' className='floating-label'>Обо мне</label>
                                 <input className='form__input' type='text' id='about' name='about' ref={el => inputRefs.current[5] = el}></input>
                             </div>
-							<div className='input-container'>
+                            <div className='input-container'>
                                 <label htmlFor='contacts' className='floating-label'>Контакты для связи</label>
                                 <input className='form__input' type='text' id='contacts' name='contacts' ref={el => inputRefs.current[6] = el}></input>
                             </div>
-							
+
+                            <div className="input-container">
+                                <label htmlFor="add-resume" className="file-label">Добавить резюме (pdf, word)</label>
+                                <input
+                                    type="file"
+                                    id="add-resume"
+                                    accept=".pdf, .doc, .docx"
+                                    className="file-input"
+                                    onChange={handleFileUpload}
+                                />
+                            </div>
+
+                            <div className="input-container">
+                                <label htmlFor="upload-json" className="file-label">Добавить резюме (json)</label>
+                                <input
+                                    type="file"
+                                    id="upload-json"
+                                    accept=".json"
+                                    className="file-input"
+                                    onChange={handleFileUpload}
+                                />
+                            </div>
+
+                            <div className="input-container">
+                                <label htmlFor="download-json" className="file-label">Скачать ответ (json)</label>
+                                <button
+                                    id="download-json"
+                                    className="download-button"
+                                    onClick={downloadJson}
+                                    disabled={!isFileUploaded} // Деактивируем кнопку, если файл не загружен
+                                >
+                                    Скачать
+                                </button>
+                            </div>
 
                         </>
                     )}
-                    {isEmployer && ( 
+                    {isEmployer && (
                         <>
 
                             <div className='input-container'>
