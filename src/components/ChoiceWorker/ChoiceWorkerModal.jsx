@@ -15,6 +15,9 @@ function ChoiceModalWorker({ worker, onClose }) {
         { label: 'Навыки', value: worker.skills || 'Информация отсутствует' },
         { label: 'Направления собеседований', value: worker.direction || 'Информация отсутствует' },
         { label: 'Опыт работы', value: worker.work_experience || 'Информация отсутствует' },
+        { label: 'Образование', value: worker.work_education || 'Информация отсутствует' },
+        { label: 'Трудоустройство (официальное или нефициальное)', value: worker.work_type || 'Информация отсутствует' },
+        { label: 'Предыдущие места работы', value: worker.work_prev_works || 'Информация отсутствует' },
         { label: 'Контактные данные', value: worker.contact || 'Информация отсутствует' },
     ];
 
@@ -38,7 +41,6 @@ function ChoiceModalWorker({ worker, onClose }) {
                     />
                     <h2 className="modal-worker__name">{worker.name}</h2>
 
-                    {/* Таблица с дополнительной информацией */}
                     <table className="modal-worker__info-table">
                         <tbody>
                             {workerFullInfo.map((info, index) => (

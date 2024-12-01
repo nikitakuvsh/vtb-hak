@@ -8,28 +8,27 @@ function ChoiceWorker() {
     useBackgroundSetter();
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedWorker, setSelectedWorker] = useState(null); // Для хранения выбранного работника
-    const [isModalOpen, setModalOpen] = useState(false); // Для управления состоянием модального окна
+    const [selectedWorker, setSelectedWorker] = useState(null);
+    const [isModalOpen, setModalOpen] = useState(false);
 
     const openModal = (worker) => {
-        setSelectedWorker(worker); // Устанавливаем выбранного работника
-        setModalOpen(true); // Открываем модальное окно
+        setSelectedWorker(worker);
+        setModalOpen(true);
     };
     
 
     const closeModal = () => {
-        setSelectedWorker(null); // Убираем выбранного работника
-        setModalOpen(false); // Закрываем модальное окно
+        setSelectedWorker(null);
+        setModalOpen(false);
     }
 
-    // Список работников
     const workers = [
         {
             id: 1,
             name: "Андрей Павлов",
             age: 22,
             role: "Frontend-разработчик",
-            experience: 3,
+            experience: 1,
             similarity: 85, // Процент схожести
             icon: defaultWorkerIcon,
         },
@@ -71,21 +70,18 @@ function ChoiceWorker() {
         }
     ];
 
-    // Фильтрация и сортировка работников
     const filteredWorkers = workers
         .filter(worker =>
             worker.name.toLowerCase().includes(searchTerm.toLowerCase())
         )
-        .sort((a, b) => b.similarity - a.similarity); // Сортировка по убыванию схожести
+        .sort((a, b) => b.similarity - a.similarity);
 
-    // Определение класса в зависимости от схожести
     const getClassBySimilarity = (similarity) => {
         if (similarity >= 75) return "worker--suitable";
         if (similarity >= 50) return "worker--average";
         return "worker--unsuitable";
     };
 
-    // Определение текста в зависимости от схожести
     const getTextBySimilarity = (similarity) => {
         if (similarity >= 75) return "Наиболее подходящий";
         if (similarity >= 50) return "Менее подходящий";
@@ -95,7 +91,6 @@ function ChoiceWorker() {
 
     return (
         <div className="choice-worker__container">
-            {/* Поле для поиска */}
             <div className="choice-worker__search">
                 <input
                     type="text"
@@ -106,7 +101,6 @@ function ChoiceWorker() {
                 />
             </div>
 
-            {/* Сетка с резюме работников */}
             {filteredWorkers.length > 0 ? (
                 <div className="worker-resume-grid">
                     {filteredWorkers.map((worker) => (
@@ -129,7 +123,7 @@ function ChoiceWorker() {
                                 <h2 className="worker-resume__name">{worker.name}</h2>
                                 <p className="worker-resume__description-text">{worker.age} лет</p>
                                 <p className="worker-resume__description-text">{worker.role}</p>
-                                <p className="worker-resume__description-text">{worker.experience} года опыта</p>
+                                <p className="worker-resume__description-text">{worker.experience} {worker.experience % 10 < 5 && worker.experience % 10 != 0 ? 'года' : 'лет'} опыта</p>
                             </div>
                         </div>
                     ))}
