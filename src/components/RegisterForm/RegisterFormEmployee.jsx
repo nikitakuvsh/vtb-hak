@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import AddressInput from './AddressInput';
 import userIcon from '../../img/user.png';
 import './RegisterFormEmployee.css';
-
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 function RegisterFormEmployee() {
     const inputRefs = useRef([]);
     const [profileImage, setProfileImage] = useState(userIcon);
     const fileInputRef = useRef(null);
-
+	const navigate = useNavigate();
     useEffect(() => {
         const updatePadding = () => {
             inputRefs.current.forEach(input => {
@@ -54,20 +55,12 @@ function RegisterFormEmployee() {
 		}
 
         try {
-            const response = await fetch(process.env.REACT_APP_BACK_API+'register_employer', {
-                method: 'POST',
-                body: formData, 
+            const response = await axios.post(process.env.REACT_APP_BACK_API+'/api/employer/register', {
+                name:inputRefs.current[0].value, email:inputRefs.current[1].value, phone:inputRefs.current[2].value, password:inputRefs.current[3].value
             });
-
-            if (response.ok) {
-                const response_json = await response.json();
-                console.log(response_json);
-                window.location.href = "/company-profile/" + response_json.user_id;
-            } else {
-                console.error('Ошибка при отправке формы');
-            }
+            navigate('/auth-employee');
         } catch (error) {
-            console.error('Произошла ошибка:', error);
+            console.log(error);
         }
     };
 
